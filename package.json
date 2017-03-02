@@ -1,0 +1,19 @@
+{
+  "name": "react-native-form-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bietkul/react-native-form-builder.git"
+  },
+  "author": "Kuldeep Saxena",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bietkul/react-native-form-builder/issues"
+  },
+  "homepage": "https://github.com/bietkul/react-native-form-builder#readme"
+}
