@@ -16,13 +16,19 @@ Common Fields we are going to develop
 - Switch (added)
 - TextInput with fixed prefix
 - TextInput with fixed suffix
-- DatePicker
-- TimePicker
-- Date&TimePicker
+- DatePicker (added)
+- TimePicker (added)
+- Date&TimePicker (added)
 - Tags ( multiple support )
+- Select ( Select one or multiple from many, select is the advanced version of picker
+  in which you can select one or more than one fields in a row some of the specs are): -
+  - Supports both objects & strings
+  - Supports multiple
+  - Supports CheckBox Support in case of multiple
 - LookUp (multiple support) // After launch
-- addMoreField
-- Image Picker
+- addMoreField ( In this field you can add field dynamically )
+- Image Picker ( Upload Images )
+- File Picker ( Upload Files )
 - Radio (Select One at a time)
 - CheckBox (Select Multiple)
 - Slider
