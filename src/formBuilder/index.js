@@ -11,6 +11,7 @@ import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
 import DateField from '../fields/date';
 import SliderField from '../fields/slider';
+import SelectField from '../fields/select';
 import baseTheme from '../utils/theme';
 
 function autoValidate(field) {
@@ -56,6 +57,27 @@ function getDefaultValue(field) {
         return field.defaultValue;
       }
       return field.options[0];
+    }
+    case 'select': {
+      if (Array.isArray(field.defaultValue)) {
+        const selected = [];
+        if (!field.objectType) {
+          field.defaultValue.forEach((item) => {
+            if ((field.options).indexOf(item) !== -1) {
+              selected.push(item);
+            }
+          });
+        }
+        field.defaultValue.forEach((item) => {
+          if ((field.options).findIndex(option =>
+            option[field.primaryKey] === item[field.primaryKey]
+          ) !== -1) {
+            selected.push(item);
+          }
+        });
+        return selected;
+      }
+      return [];
     }
     case 'switch':
       if (typeof field.defaultValue === 'boolean') {
@@ -257,6 +279,15 @@ export default class FormBuilder extends Component {
           case 'picker':
             return (
               <PickerField
+                key={index}
+                theme={theme}
+                attributes={this.state[field.name]}
+                updateValue={this.onValueChange}
+              />
+            );
+          case 'select':
+            return (
+              <SelectField
                 key={index}
                 theme={theme}
                 attributes={this.state[field.name]}

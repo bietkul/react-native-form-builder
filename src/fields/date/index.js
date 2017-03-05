@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'native-base';
 import I18n from 'react-native-i18n';
 import { Platform, DatePickerIOS, DatePickerAndroid, TouchableOpacity, TimePickerAndroid } from 'react-native';
-import Panel from './panel';
+import Panel from '../../components/panel';
 
 export default class DatePickerField extends Component {
   static defaultProps = {
@@ -11,11 +11,11 @@ export default class DatePickerField extends Component {
   static propTypes = {
     attributes: React.PropTypes.object,
     timeZoneOffsetInHours: React.PropTypes.number,
+    theme: React.PropTypes.object,
   }
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       timeZoneOffsetInHours: props.timeZoneOffsetInHours,
       selectedDate: (props.attributes.value
       && new Date(props.attributes.value)) || null,
@@ -69,26 +69,80 @@ export default class DatePickerField extends Component {
     }
   };
   render() {
-    console.log('PROPS IN DATE PICKER', this.props, this.state);
     const theme = this.props.theme;
     const attributes = this.props.attributes;
     const mode = attributes.mode || 'datetime';
     return (
       <View>
         { (Platform.OS === 'ios') ?
-          <Panel
-            label={attributes.label}
-            value={this.state.selectedDate}
-            mode={mode}
-            theme={theme}
+          <View
+            style={{
+              backgroundColor: theme.pickerBgColor,
+              borderBottomColor: theme.inputBorderColor,
+              borderBottomWidth: theme.borderWidth,
+              marginHorizontal: 10,
+              marginVertical: 0,
+              marginLeft: 15,
+            }}
           >
-            <DatePickerIOS
-              date={this.state.selectedDate || new Date()}
-              mode={mode}
-              timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-              onDateChange={this.onDateChange}
-            />
-          </Panel>
+            <TouchableOpacity
+              onPress={() => this.panel.toggle()}
+              style={{
+                paddingVertical: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ color: theme.labelActiveColor }}>{attributes.label}</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}
+              >
+                {
+                (mode ?
+                  (mode === 'date'
+                  || mode === 'datetime')
+                : true) &&
+                <View
+                  style={{
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text>
+                    { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%d %b %Y')) || 'None' }
+                  </Text>
+                </View>
+            }
+                {
+                (mode ?
+                  (mode === 'time'
+                  || mode === 'datetime')
+                : true) &&
+                <View
+                  style={{
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text>
+                    { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%I:%M %p')) || 'None' }
+                  </Text>
+                </View>
+            }
+              </View>
+            </TouchableOpacity>
+            <Panel
+              ref={(c) => { this.panel = c; }}
+            >
+              <DatePickerIOS
+                date={this.state.selectedDate || new Date()}
+                mode={mode}
+                timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+                onDateChange={this.onDateChange}
+              />
+            </Panel>
+          </View>
             :
           <TouchableOpacity
             style={{

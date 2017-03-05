@@ -79,6 +79,7 @@ export default {
       mode: 'date',
       name: 'D-T', // D, T, D-T
       label: 'Select Date',
+      minDate: new Date(2017, 3, 1),
       maxDate: new Date(2017, 3, 1),
     },
   ],

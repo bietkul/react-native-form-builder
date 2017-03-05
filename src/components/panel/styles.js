@@ -10,7 +10,6 @@ module.exports = StyleSheet.create({
     overflow: 'hidden',
   },
   body: {
-    padding: 10,
     paddingTop: 0,
   },
 });
