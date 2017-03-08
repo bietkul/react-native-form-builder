@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Dimensions, View } from 'react-native'; // Step 1
+import { Animated, Dimensions, View, Easing} from 'react-native'; // Step 1
 import styles from './styles';
 
 class Panel extends Component {
@@ -38,6 +38,7 @@ class Panel extends Component {
       {
         toValue: finalValue,
         duration: 500,
+        easing: Easing.InOut,
       }
     ).start();
   }

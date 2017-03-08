@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-native';
+import { Modal, Dimensions } from 'react-native';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
   Title,
   Button,
 } from 'native-base';
+const deviceWidth = Dimensions.get('window').width;
 
 export default class SelectField extends Component {
   static propTypes = {
@@ -35,24 +36,31 @@ export default class SelectField extends Component {
     });
   }
   toggleSelect(value) {
-    const newSelected = this.state.selected;
     const attributes = this.props.attributes;
-    const index = attributes.objectType ? newSelected.findIndex(option =>
-      option[attributes.primaryKey] === value[attributes.primaryKey]
-    ) : newSelected.indexOf(value);
-    if (index === -1) {
-      newSelected.push(value);
-    } else {
-      newSelected.splice(index, 1);
+    const newSelected = attributes.multiple ? this.state.selected : value;
+    if (attributes.multiple) {
+      const index = attributes.objectType ? newSelected.findIndex(option =>
+        option[attributes.primaryKey] === value[attributes.primaryKey]
+      ) : newSelected.indexOf(value);
+      if (index === -1) {
+        newSelected.push(value);
+      } else {
+        newSelected.splice(index, 1);
+      }
     }
     this.setState({
       selected: newSelected,
+      modalVisible: attributes.multiple ? this.state.modalVisible : false,
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
   render() {
-    // console.log('THESE ARE PROPS', this.props, this.state);
+    console.log('THESE ARE PROPS', this.props, this.state);
     const { attributes, theme } = this.props;
-    const selectedText = this.state.selected.length ? this.state.selected.length : 'None';
+    const selectedText = attributes.multiple ?
+    this.state.selected.length || 'None' :
+    attributes.objectType ?
+    (this.state.selected && this.state.selected[attributes.labelKey]) || 'None'
+    : this.state.selected || 'None';
     return (
       <View>
         <ListItem icon onPress={() => this.toggleModalVisible()}>
@@ -60,7 +68,10 @@ export default class SelectField extends Component {
             <Text>{attributes.label}</Text>
           </Body>
           <Right>
-            <Text>{selectedText}</Text>
+            <View style={{width : deviceWidth / 2, alignItems: 'flex-end'}}>
+              <Text numberOfLines={1} ellipSizeMode='tail'>{selectedText}</Text>
+            </View>
+
             <Icon name="ios-arrow-forward" />
           </Right>
         </ListItem>
@@ -80,26 +91,30 @@ export default class SelectField extends Component {
                 </Button>
               </Left>
               <Body>
-                <Title>Select</Title>
+                <Title>{attributes.label || 'Select'}</Title>
               </Body>
               <Right />
             </Header>
             <Content>
               {
               attributes.options.map((item, index) => {
-                const isSelected = attributes.objectType ?
-                this.state.selected.findIndex(option =>
-                  option[attributes.primaryKey] === item[attributes.primaryKey]
-                ) !== -1 : (this.state.selected.indexOf(item) !== -1);
+                let isSelected = false;
+                if (attributes.multiple) {
+                  isSelected = attributes.objectType ?
+                  this.state.selected.findIndex(option =>
+                    option[attributes.primaryKey] === item[attributes.primaryKey]
+                  ) !== -1 : (this.state.selected.indexOf(item) !== -1);
+                }
                 return (
                   <ListItem
                     key={index}
                     onPress={() => this.toggleSelect(item)}
                   >
-                    <CheckBox
+                    { attributes.multiple && <CheckBox
                       onPress={() => this.toggleSelect(item)}
                       checked={isSelected}
                     />
+                }
                     <Body>
                       <Text>{attributes.objectType ? item[attributes.labelKey] : item }</Text>
                     </Body>

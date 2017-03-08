@@ -67,15 +67,19 @@ function getDefaultValue(field) {
               selected.push(item);
             }
           });
+        } else {
+          field.defaultValue.forEach((item) => {
+            if ((field.options).findIndex(option =>
+              option[field.primaryKey] === item[field.primaryKey]
+            ) !== -1) {
+              selected.push(item);
+            }
+          });
         }
-        field.defaultValue.forEach((item) => {
-          if ((field.options).findIndex(option =>
-            option[field.primaryKey] === item[field.primaryKey]
-          ) !== -1) {
-            selected.push(item);
-          }
-        });
         return selected;
+      }
+      if (!field.multiple) {
+        return field.defaultValue || null;
       }
       return [];
     }

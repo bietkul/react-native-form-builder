@@ -39,6 +39,40 @@ export default {
       defaultValue: 'www.jiji.com',
     },
     {
+      type: 'select', // required
+      name: 'select', // required
+      multiple: true, // default false
+      required: true, // default false
+      label: 'SELECT', // required
+      labelKey: 'name', // tells the display key (required)
+      primaryKey: 'id', // tells the unique key (required)
+      objectType: true, // tells the type of values is object default false
+      options: [ // required
+        {
+          id: 1,
+          name: 'kuldeep',
+          title: 'saxena',
+        },
+        {
+          id: 2,
+          name: 'kuldeep1',
+          title: 'saxena1',
+        },
+        {
+          id: 3,
+          name: 'kuldeep2',
+          title: 'saxena2',
+        },
+      ],
+      // options: ['CAR', 'BIKE', 'BICYCLE'],
+      defaultValue: [{  // In case of multiple it will be an array otherwise it will be an object
+        id: 3,
+        name: 'kuldeep2',
+        title: 'saxena2',
+      }],
+      // defaultValue: ['CAR', 'BIKE'],
+    },
+    {
       type: 'text',
       name: 'address',
       label: 'Address',
@@ -79,7 +113,6 @@ export default {
       mode: 'date',
       name: 'D-T', // D, T, D-T
       label: 'Select Date',
-      minDate: new Date(2017, 3, 1),
       maxDate: new Date(2017, 3, 1),
     },
   ],
