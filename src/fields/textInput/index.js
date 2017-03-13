@@ -12,20 +12,20 @@ export default class TextInputField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputString: props.attributes.value || '',
+      value: props.attributes.value || '',
     };
   }
   componentWillReceiveProps(nextProps) {
     const newAttributes = nextProps.attributes;
-    if ((newAttributes && newAttributes.value) !== this.state.inputString) {
+    if ((newAttributes && newAttributes.value) !== this.state.value) {
       this.setState({
-        inputString: newAttributes.value,
+        value: newAttributes.value,
       });
     }
   }
   handleChange(text) {
     this.setState({
-      inputString: text,
+      value: text,
     }, () => this.props.updateValue(this.props.attributes.name, text));
   }
   render() {
@@ -52,7 +52,7 @@ export default class TextInputField extends Component {
             secureTextEntry={attributes.secureTextEntry}
             editable={attributes.editable}
             numberOfLines={attributes.numberOfLines || 2}
-            value={this.state.inputString}
+            value={this.state.value}
             keyboardType={keyboardType}
             onChangeText={text => this.handleChange(text)}
           />

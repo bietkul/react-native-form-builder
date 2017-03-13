@@ -27,8 +27,17 @@ export default class SelectField extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      selected: props.attributes.value,
+      value: props.attributes.value,
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    const newAttributes = nextProps.attributes;
+    if ((newAttributes &&
+      JSON.stringify(newAttributes.value)) !== JSON.stringify(this.state.value)) {
+      this.setState({
+        value: newAttributes.value,
+      });
+    }
   }
   toggleModalVisible() {
     this.setState({
@@ -37,7 +46,7 @@ export default class SelectField extends Component {
   }
   toggleSelect(value) {
     const attributes = this.props.attributes;
-    const newSelected = attributes.multiple ? this.state.selected : value;
+    const newSelected = attributes.multiple ? this.state.value : value;
     if (attributes.multiple) {
       const index = attributes.objectType ? newSelected.findIndex(option =>
         option[attributes.primaryKey] === value[attributes.primaryKey]
@@ -49,7 +58,7 @@ export default class SelectField extends Component {
       }
     }
     this.setState({
-      selected: newSelected,
+      value: newSelected,
       modalVisible: attributes.multiple ? this.state.modalVisible : false,
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
@@ -57,10 +66,10 @@ export default class SelectField extends Component {
     console.log('THESE ARE PROPS', this.props, this.state);
     const { attributes, theme } = this.props;
     const selectedText = attributes.multiple ?
-    this.state.selected.length || 'None' :
+    this.state.value.length || 'None' :
     attributes.objectType ?
-    (this.state.selected && this.state.selected[attributes.labelKey]) || 'None'
-    : this.state.selected || 'None';
+    (this.state.value && this.state.value[attributes.labelKey]) || 'None'
+    : this.state.value || 'None';
     return (
       <View>
         <ListItem icon onPress={() => this.toggleModalVisible()}>
@@ -68,8 +77,8 @@ export default class SelectField extends Component {
             <Text>{attributes.label}</Text>
           </Body>
           <Right>
-            <View style={{width : deviceWidth / 2, alignItems: 'flex-end'}}>
-              <Text numberOfLines={1} ellipSizeMode='tail'>{selectedText}</Text>
+            <View style={{ width: deviceWidth / 2, alignItems: 'flex-end' }}>
+              <Text numberOfLines={1} ellipSizeMode="tail">{selectedText}</Text>
             </View>
 
             <Icon name="ios-arrow-forward" />
@@ -101,22 +110,27 @@ export default class SelectField extends Component {
                 let isSelected = false;
                 if (attributes.multiple) {
                   isSelected = attributes.objectType ?
-                  this.state.selected.findIndex(option =>
+                  this.state.value.findIndex(option =>
                     option[attributes.primaryKey] === item[attributes.primaryKey]
-                  ) !== -1 : (this.state.selected.indexOf(item) !== -1);
+                  ) !== -1 : (this.state.value.indexOf(item) !== -1);
                 }
                 return (
                   <ListItem
                     key={index}
                     onPress={() => this.toggleSelect(item)}
                   >
-                    { attributes.multiple && <CheckBox
-                      onPress={() => this.toggleSelect(item)}
-                      checked={isSelected}
-                    />
-                }
+                    { attributes.multiple &&
+                      <View pointerEvents="none">
+                        <CheckBox
+                          onPress={() => this.toggleSelect(item)}
+                          checked={isSelected}
+                        />
+                      </View>
+                    }
                     <Body>
-                      <Text>{attributes.objectType ? item[attributes.labelKey] : item }</Text>
+                      <Text>
+                        {attributes.objectType ? item[attributes.labelKey] : item }
+                      </Text>
                     </Body>
                   </ListItem>);
               })

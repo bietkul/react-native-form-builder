@@ -10,6 +10,7 @@ export default class DatePickerField extends Component {
   };
   static propTypes = {
     attributes: React.PropTypes.object,
+    updateValue: React.PropTypes.func,
     timeZoneOffsetInHours: React.PropTypes.number,
     theme: React.PropTypes.object,
   }
@@ -17,16 +18,25 @@ export default class DatePickerField extends Component {
     super(props);
     this.state = {
       timeZoneOffsetInHours: props.timeZoneOffsetInHours,
-      selectedDate: (props.attributes.value
+      value: (props.attributes.value
       && new Date(props.attributes.value)) || null,
     };
     this.onDateChange = this.onDateChange.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    const newAttributes = nextProps.attributes;
+    if ((newAttributes && newAttributes.value) !== this.state.value) {
+      this.setState({
+        value: newAttributes.value,
+      });
+    }
+  }
   onDateChange(date) {
-    this.setState({ selectedDate: date });
+    this.setState({ value: date },
+      () => this.props.updateValue(this.props.attributes.name, this.state.value));
   }
   showTimePicker = async (stateKey) => {
-    const currentDate = this.state.selectedDate || new Date();
+    const currentDate = this.state.value || new Date();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
@@ -43,7 +53,7 @@ export default class DatePickerField extends Component {
     }
   };
   showDatePicker = async (stateKey) => {
-    const currentDate = this.state.selectedDate || new Date();
+    const currentDate = this.state.value || new Date();
     try {
       const { action, year, month, day } = await DatePickerAndroid.open(
         {
@@ -111,7 +121,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%d %b %Y')) || 'None' }
+                    { (this.state.value && I18n.strftime(this.state.value, '%d %b %Y')) || 'None' }
                   </Text>
                 </View>
             }
@@ -126,7 +136,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%I:%M %p')) || 'None' }
+                    { (this.state.value && I18n.strftime(this.state.value, '%I:%M %p')) || 'None' }
                   </Text>
                 </View>
             }
@@ -136,8 +146,10 @@ export default class DatePickerField extends Component {
               ref={(c) => { this.panel = c; }}
             >
               <DatePickerIOS
-                date={this.state.selectedDate || new Date()}
+                date={this.state.value || new Date()}
                 mode={mode}
+                maximumDate={attributes.maxDate}
+                minimumDate={attributes.minDate}
                 timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />
@@ -175,7 +187,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text onPress={() => this.showDatePicker()}>
-                    { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%d %b %Y')) || 'Date' }
+                    { (this.state.value && I18n.strftime(this.state.value, '%d %b %Y')) || 'Date' }
                   </Text>
                 </TouchableOpacity>
             }
@@ -190,7 +202,7 @@ export default class DatePickerField extends Component {
                 }}
               >
                 <Text onPress={() => this.showTimePicker()}>
-                  { (this.state.selectedDate && I18n.strftime(this.state.selectedDate, '%I:%M %p')) || 'Time' }
+                  { (this.state.value && I18n.strftime(this.state.value, '%I:%M %p')) || 'Time' }
                 </Text>
                 </TouchableOpacity>
             }

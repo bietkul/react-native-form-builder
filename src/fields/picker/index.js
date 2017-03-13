@@ -13,22 +13,22 @@ export default class PickerField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: props.attributes.options.indexOf(props.attributes.value).toString(),
+      value: props.attributes.options.indexOf(props.attributes.value).toString(),
     };
   }
   componentWillReceiveProps(nextProps) {
     const newAttributes = nextProps.attributes;
     if ((newAttributes
-      && newAttributes.options.indexOf(newAttributes.value)).toString() !== this.state.selected) {
+      && newAttributes.options.indexOf(newAttributes.value)).toString() !== this.state.value) {
       this.setState({
-        selected: newAttributes.options.indexOf(newAttributes.value).toString(),
+        value: newAttributes.options.indexOf(newAttributes.value).toString(),
       });
     }
   }
   handleChange(value) {
     const attributes = this.props.attributes;
     this.setState({
-      selected: value,
+      value,
     }, () => this.props.updateValue(attributes.name, attributes.options[value]));
   }
   toggleActive() {
@@ -63,7 +63,7 @@ export default class PickerField extends Component {
               textStyle={{ color: theme.pickerColorSelected }}
               iosHeader="Select one"
               mode={attributes.mode}
-              selectedValue={this.state.selected}
+              selectedValue={this.state.value}
               onValueChange={value => this.handleChange(value)}
             >{
                 attributes.options.map((item, index) => (
@@ -103,7 +103,7 @@ export default class PickerField extends Component {
             {attributes.label}
           </Text>
           <Text style={{ color: theme.inputColorPlaceholder }}>
-            {attributes.options[this.state.selected] || 'None'}
+            {attributes.options[this.state.value] || 'None'}
           </Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
@@ -114,7 +114,7 @@ export default class PickerField extends Component {
               style={{ padding: 2 }}
               textStyle={{ color: theme.pickerColorSelected }}
               mode={attributes.mode}
-              selectedValue={this.state.selected}
+              selectedValue={this.state.value}
               onValueChange={value => this.handleChange(value)}
             >{
                 attributes.options.map((item, index) => (

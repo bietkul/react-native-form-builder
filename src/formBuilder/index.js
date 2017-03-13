@@ -5,13 +5,14 @@
  */
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Container, Content } from 'native-base';
+import { ScrollView } from 'react-native';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
 import DateField from '../fields/date';
 import SliderField from '../fields/slider';
 import SelectField from '../fields/select';
+import FormField from '../fields/form';
 import baseTheme from '../utils/theme';
 
 function autoValidate(field) {
@@ -93,9 +94,47 @@ function getDefaultValue(field) {
         return field.defaultValue;
       }
       return null;
+    case 'group':
+      if (field.fields) {
+        return field.defaultValue;
+      }
+      return null;
     default:
       return null;
   }
+}
+function getResetValue(field) {
+  switch (field.type) {
+    case 'text':
+    case 'number':
+    case 'email':
+    case 'password':
+    case 'url':
+      return '';
+    case 'picker':
+      return field.options[0];
+    case 'select':
+      return field.multiple ? [] : null;
+    case 'switch':
+      return false;
+    case 'date':
+      return null;
+    default:
+      return null;
+  }
+}
+function getInitState(fields) {
+  const state = {};
+  _.forEach(fields, (field) => {
+    const fieldObj = field;
+    fieldObj.error = false;
+    fieldObj.errorMsg = '';
+    if (!field.hidden && field.type) {
+      fieldObj.value = getDefaultValue(field);
+      state[field.name] = fieldObj;
+    }
+  });
+  return state;
 }
 
 export default class FormBuilder extends Component {
@@ -104,14 +143,16 @@ export default class FormBuilder extends Component {
     theme: React.PropTypes.object,
     autoValidation: React.PropTypes.bool,
     customValidation: React.PropTypes.func,
+    onValueChange: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
-    const initialState = this.getInitState(props.fields);
+    const initialState = getInitState(props.fields);
     this.state = {
       ...initialState,
       errorStatus: false,
     };
+    this.getValues = this.getValues.bind(this);
     // Invoked every time whenever any fields's value changes
     this.onValueChange = this.onValueChange.bind(this);
     // Generate fields
@@ -131,8 +172,47 @@ export default class FormBuilder extends Component {
     */
     //  reset form values to default as well as errors
     this.resetForm = this.resetForm.bind(this);
+    if (props.afterSetDefault && typeof props.afterSetDefault === 'function') {
+      props.afterSetDefault();
+    }
   }
 
+  onValueChange(name, value) {
+    console.log('VALUE IS CHANGING', name, value);
+    const valueObj = this.state[name];
+    if (valueObj) {
+      valueObj.value = value;
+      // Not Validate fields only when autoValidation prop is false
+      if (this.props.autoValidation === undefined || this.props.autoValidation) {
+        Object.assign(valueObj, autoValidate(valueObj));
+      }
+      // Validate through customValidation if it is present in props
+      if (this.props.customValidation
+         && typeof this.props.customValidation === 'function') {
+        Object.assign(valueObj, this.props.customValidation(valueObj));
+      }
+      const newField = {};
+      newField[valueObj.name] = valueObj;
+      // this.props.customValidation(valueObj);
+      if (this.props.onValueChange &&
+        typeof this.props.onValueChange === 'function') {
+        this.setState({ ...newField }, () => this.props.onValueChange());
+      } else {
+        this.setState({ ...newField });
+      }
+    }
+  }
+  // Returns the values of the fields
+  getValues() {
+    const values = {};
+    Object.keys(this.state).forEach((fieldName) => {
+      const field = this.state[fieldName];
+      if (field) {
+        values[field.name] = field.value;
+      }
+    });
+    return values;
+  }
   /* Set particular field value to default
   Required Form
    For multiple Fields
@@ -161,43 +241,6 @@ export default class FormBuilder extends Component {
           this.setState({ ...newField });
         }
       }
-    }
-  }
-
-  resetForm() {
-    const newFields = {};
-    Object.keys(this.state).forEach((fieldName) => {
-      const field = this.state[fieldName];
-      if (field) {
-        field.value = getDefaultValue(field);
-        field.error = false;
-        field.errorMsg = '';
-        newFields[field.name] = field;
-      }
-    });
-    console.log('HEY YOU ARE IN RESET FORM WILL RESET WHOLE FORM', newFields);
-    this.setState({ ...newFields });
-  }
-
-
-  onValueChange(name, value) {
-    console.log('VALUE IS CHANGING', name, value);
-    const valueObj = this.state[name];
-    if (valueObj) {
-      valueObj.value = value;
-      // Not Validate fields only when autoValidation prop is false
-      if (this.props.autoValidation === undefined || this.props.autoValidation) {
-        Object.assign(valueObj, autoValidate(valueObj));
-      }
-      // Validate through customValidation if it is present in props
-      if (this.props.customValidation
-         && typeof this.props.customValidation === 'function') {
-        Object.assign(valueObj, this.props.customValidation(valueObj));
-      }
-      const newField = {};
-      newField[valueObj.name] = valueObj;
-      // this.props.customValidation(valueObj);
-      this.setState({ ...newField });
     }
   }
   /* Required Form
@@ -248,18 +291,24 @@ export default class FormBuilder extends Component {
       }
     }
   }
-  getInitState(fields) {
-    const state = {};
-    _.forEach(fields, (field) => {
-      const fieldObj = field;
-      fieldObj.error = false;
-      fieldObj.errorMsg = '';
-      if (!field.hidden && field.type) {
-        fieldObj.value = getDefaultValue(field);
-        state[field.name] = fieldObj;
+  // Reset Form values & errors NESTED SUPPORTED
+  resetForm() {
+    const newFields = {};
+    Object.keys(this.state).forEach((fieldName) => {
+      const field = this.state[fieldName];
+      if (field) {
+        field.value = (field.editable !== undefined && !field.editable) ?
+          getDefaultValue(field) :
+          getResetValue(field);
+        field.error = false;
+        field.errorMsg = '';
+        if (field.type === 'group') {
+          this[field.name].group.resetForm();
+        }
+        newFields[field.name] = field;
       }
     });
-    return state;
+    this.setState({ ...newFields });
   }
   generateFields() {
     const theme = Object.assign(baseTheme, this.props.theme);
@@ -276,6 +325,7 @@ export default class FormBuilder extends Component {
               <TextInputField
                 key={index}
                 theme={theme}
+                ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -285,6 +335,7 @@ export default class FormBuilder extends Component {
               <PickerField
                 key={index}
                 theme={theme}
+                ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -294,6 +345,7 @@ export default class FormBuilder extends Component {
               <SelectField
                 key={index}
                 theme={theme}
+                ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -303,6 +355,7 @@ export default class FormBuilder extends Component {
               <SwitchField
                 key={index}
                 theme={theme}
+                ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -312,6 +365,17 @@ export default class FormBuilder extends Component {
               <DateField
                 key={index}
                 theme={theme}
+                ref={(c) => { this[field.name] = c; }}
+                attributes={this.state[field.name]}
+                updateValue={this.onValueChange}
+              />
+            );
+          case 'group':
+            return (
+              <FormField
+                key={index}
+                theme={theme}
+                ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -326,12 +390,9 @@ export default class FormBuilder extends Component {
   render() {
     console.log('THIS IS STATE & PROPS', this.state, this.props);
     return (
-      <Container>
-        <Content>
-          {this.generateFields()}
-          <SliderField />
-        </Content>
-      </Container>
+      <ScrollView>
+        {this.generateFields()}
+      </ScrollView>
     );
   }
 }
