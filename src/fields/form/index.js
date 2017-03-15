@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { View, Item, Input, Icon } from 'native-base';
-import { Container, Content } from 'native-base';
-
-import { Platform } from 'react-native';
 import GenerateForm from 'react-native-form-builder';
 
 export default class FormField extends Component {

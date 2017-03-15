@@ -152,6 +152,7 @@ export default class FormBuilder extends Component {
       ...initialState,
       errorStatus: false,
     };
+    // Supports Nested
     this.getValues = this.getValues.bind(this);
     // Invoked every time whenever any fields's value changes
     this.onValueChange = this.onValueChange.bind(this);
@@ -172,9 +173,6 @@ export default class FormBuilder extends Component {
     */
     //  reset form values to default as well as errors
     this.resetForm = this.resetForm.bind(this);
-    if (props.afterSetDefault && typeof props.afterSetDefault === 'function') {
-      props.afterSetDefault();
-    }
   }
 
   onValueChange(name, value) {
@@ -213,7 +211,22 @@ export default class FormBuilder extends Component {
     });
     return values;
   }
-  /* Set particular field value to default
+  // Helper function fro setToDefault
+  getFieldDefaultValue(fieldObj) {
+    const field = fieldObj;
+    if (field.type === 'group') {
+      const allFields = [];
+      this.state[field.name].fields.forEach((item) => {
+        allFields.push(item.name);
+      });
+      this[field.name].group.setToDefault(allFields);
+      field.value = this[field.name].group.getValues();
+    } else {
+      field.value = getDefaultValue(field);
+    }
+    return field;
+  }
+  /* Set particular field value to default SUPPORTS NESTED FORMS
   Required Form
    For multiple Fields
    [fieldName1, fieldName2, fieldName3 .....]
@@ -228,7 +241,7 @@ export default class FormBuilder extends Component {
           const field = this.state[item];
           if (field) {
             field.value = getDefaultValue(field);
-            newFields[field.name] = field;
+            newFields[field.name] = this.getFieldDefaultValue(field);
           }
         });
         this.setState({ ...newFields });
@@ -236,12 +249,39 @@ export default class FormBuilder extends Component {
         const field = this.state[args[0]];
         if (field) {
           const newField = {};
-          field.value = getDefaultValue(field);
-          newField[field.name] = field;
+          newField[field.name] = this.getFieldDefaultValue(field);
           this.setState({ ...newField });
         }
       }
     }
+  }
+  // Helper function for setValues
+  getFieldValue(fieldObj, value) {
+    const field = fieldObj;
+    if (field.type === 'group') {
+      const subFields = [];
+      Object.keys(value).forEach((fieldName) => {
+        const setValueObj = {};
+        setValueObj.name = fieldName;
+        setValueObj.value = value[fieldName];
+        subFields.push(setValueObj);
+      });
+      this[field.name].group.setValues(subFields);
+      field.value = this[field.name].group.getValues();
+      // Remaing thing is error Handling Here
+    } else {
+      field.value = value;
+        // also check for errors
+      if (this.props.autoValidation === undefined || this.props.autoValidation) {
+        Object.assign(field, autoValidate(field));
+      }
+        // Validate through customValidation if it is present in props
+      if (this.props.customValidation
+           && typeof this.props.customValidation === 'function') {
+        Object.assign(field, this.props.customValidation(field));
+      }
+    }
+    return field;
   }
   /* Required Form
     For multiple fields
@@ -256,17 +296,7 @@ export default class FormBuilder extends Component {
         args[0].forEach((item) => {
           const field = this.state[item.name];
           if (field) {
-            field.value = item.value;
-             // also check for errors
-            if (this.props.autoValidation === undefined || this.props.autoValidation) {
-              Object.assign(field, autoValidate(field));
-            }
-             // Validate through customValidation if it is present in props
-            if (this.props.customValidation
-                && typeof this.props.customValidation === 'function') {
-              Object.assign(field, this.props.customValidation(field));
-            }
-            newFields[field.name] = field;
+            newFields[field.name] = this.getFieldValue(field, item.value);
           }
         });
         this.setState({ ...newFields });
@@ -274,18 +304,7 @@ export default class FormBuilder extends Component {
         const field = this.state[args[0].name];
         if (field) {
           const newField = {};
-          // also check for errors
-          field.value = args[0].value;
-          // also check for errors
-          if (this.props.autoValidation === undefined || this.props.autoValidation) {
-            Object.assign(field, autoValidate(field));
-          }
-          // Validate through customValidation if it is present in props
-          if (this.props.customValidation
-             && typeof this.props.customValidation === 'function') {
-            Object.assign(field, this.props.customValidation(field));
-          }
-          newField[field.name] = field;
+          newField[field.name] = this.getFieldValue(field, args[0].value);
           this.setState({ ...newField });
         }
       }
@@ -388,7 +407,7 @@ export default class FormBuilder extends Component {
     return renderFields;
   }
   render() {
-    console.log('THIS IS STATE & PROPS', this.state, this.props);
+    console.log('THIS IS STATE & PROPS', this.state, this.props, this);
     return (
       <ScrollView>
         {this.generateFields()}
