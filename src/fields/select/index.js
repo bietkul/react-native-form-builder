@@ -27,18 +27,18 @@ export default class SelectField extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      value: props.attributes.value,
+      // value: props.attributes.value,
     };
   }
-  componentWillReceiveProps(nextProps) {
-    const newAttributes = nextProps.attributes;
-    if ((newAttributes &&
-      JSON.stringify(newAttributes.value)) !== JSON.stringify(this.state.value)) {
-      this.setState({
-        value: newAttributes.value,
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const newAttributes = nextProps.attributes;
+  //   if ((newAttributes &&
+  //     JSON.stringify(newAttributes.value)) !== JSON.stringify(this.state.value)) {
+  //     this.setState({
+  //       value: newAttributes.value,
+  //     });
+  //   }
+  // }
   toggleModalVisible() {
     this.setState({
       modalVisible: !this.state.modalVisible,
@@ -46,7 +46,7 @@ export default class SelectField extends Component {
   }
   toggleSelect(value) {
     const attributes = this.props.attributes;
-    const newSelected = attributes.multiple ? this.state.value : value;
+    const newSelected = attributes.multiple ? attributes.value : value;
     if (attributes.multiple) {
       const index = attributes.objectType ? newSelected.findIndex(option =>
         option[attributes.primaryKey] === value[attributes.primaryKey]
@@ -58,7 +58,6 @@ export default class SelectField extends Component {
       }
     }
     this.setState({
-      value: newSelected,
       modalVisible: attributes.multiple ? this.state.modalVisible : false,
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
@@ -66,10 +65,10 @@ export default class SelectField extends Component {
     console.log('THESE ARE PROPS', this.props, this.state);
     const { attributes, theme } = this.props;
     const selectedText = attributes.multiple ?
-    this.state.value.length || 'None' :
+    attributes.value.length || 'None' :
     attributes.objectType ?
-    (this.state.value && this.state.value[attributes.labelKey]) || 'None'
-    : this.state.value || 'None';
+    (attributes.value && attributes.value[attributes.labelKey]) || 'None'
+    : attributes.value || 'None';
     return (
       <View>
         <ListItem icon onPress={() => this.toggleModalVisible()}>
@@ -110,9 +109,9 @@ export default class SelectField extends Component {
                 let isSelected = false;
                 if (attributes.multiple) {
                   isSelected = attributes.objectType ?
-                  this.state.value.findIndex(option =>
+                  attributes.value.findIndex(option =>
                     option[attributes.primaryKey] === item[attributes.primaryKey]
-                  ) !== -1 : (this.state.value.indexOf(item) !== -1);
+                  ) !== -1 : (attributes.value.indexOf(item) !== -1);
                 }
                 return (
                   <ListItem

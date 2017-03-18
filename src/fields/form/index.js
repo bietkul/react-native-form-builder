@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'native-base';
 import GenerateForm from 'react-native-form-builder';
 
 export default class FormField extends Component {
@@ -27,14 +28,16 @@ export default class FormField extends Component {
     const attributes = this.props.attributes;
     const theme = this.props.theme;
     return (
-      <GenerateForm
-        ref={(c) => { this.group = c; }}
-        onValueChange={this.onValueChange}
-        autoValidation
-        showErrors
-        fields={attributes.fields}
-        theme={theme}
-      />
+      <View>
+        <GenerateForm
+          ref={(c) => { this.group = c; }}
+          onValueChange={this.onValueChange}
+          autoValidation
+          showErrors
+          fields={attributes.fields}
+          theme={theme}
+        />
+      </View>
     );
   }
 }

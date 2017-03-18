@@ -9,27 +9,25 @@ export default class TextInputField extends Component {
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.attributes.value || '',
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    const newAttributes = nextProps.attributes;
-    if ((newAttributes && newAttributes.value) !== this.state.value) {
-      this.setState({
-        value: newAttributes.value,
-      });
-    }
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     value: props.attributes.value || '',
+  //   };
+  // }
+  // componentWillReceiveProps(nextProps) {
+  //   const newAttributes = nextProps.attributes;
+  //   if ((newAttributes && newAttributes.value) !== this.state.value) {
+  //     this.setState({
+  //       value: newAttributes.value,
+  //     });
+  //   }
+  // }
   handleChange(text) {
-    this.setState({
-      value: text,
-    }, () => this.props.updateValue(this.props.attributes.name, text));
+    this.props.updateValue(this.props.attributes.name, text);
   }
   render() {
-     console.log('THISESRB ARE PROPS IN TEXTINPUT', this.state, this.props);
+    console.log('THISESRB ARE PROPS IN TEXTINPUT', this.props);
     const attributes = this.props.attributes;
     const keyboardType = getKeyboardType(attributes.type);
     const theme = this.props.theme;
@@ -52,7 +50,7 @@ export default class TextInputField extends Component {
             secureTextEntry={attributes.secureTextEntry}
             editable={attributes.editable}
             numberOfLines={attributes.numberOfLines || 2}
-            value={this.state.value}
+            value={attributes.value}
             keyboardType={keyboardType}
             onChangeText={text => this.handleChange(text)}
           />

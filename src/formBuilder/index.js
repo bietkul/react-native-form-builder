@@ -5,12 +5,12 @@
  */
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { ScrollView } from 'react-native';
+import { View } from 'react-native';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
 import DateField from '../fields/date';
-import SliderField from '../fields/slider';
+// import SliderField from '../fields/slider';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../utils/theme';
@@ -409,9 +409,9 @@ export default class FormBuilder extends Component {
   render() {
     console.log('THIS IS STATE & PROPS', this.state, this.props, this);
     return (
-      <ScrollView>
+      <View>
         {this.generateFields()}
-      </ScrollView>
+      </View>
     );
   }
 }

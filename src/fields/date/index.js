@@ -16,27 +16,28 @@ export default class DatePickerField extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {
-      timeZoneOffsetInHours: props.timeZoneOffsetInHours,
-      value: (props.attributes.value
-      && new Date(props.attributes.value)) || null,
-    };
+    // this.state = {
+    //   timeZoneOffsetInHours: props.timeZoneOffsetInHours,
+    //   value: (props.attributes.value
+    //   && new Date(props.attributes.value)) || null,
+    // };
     this.onDateChange = this.onDateChange.bind(this);
+    this.showTimePicker = this.showTimePicker.bind(this);
+    this.showDatePicker = this.showDatePicker.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    const newAttributes = nextProps.attributes;
-    if ((newAttributes && newAttributes.value) !== this.state.value) {
-      this.setState({
-        value: newAttributes.value,
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const newAttributes = nextProps.attributes;
+  //   if ((newAttributes && newAttributes.value) !== this.state.value) {
+  //     this.setState({
+  //       value: newAttributes.value,
+  //     });
+  //   }
+  // }
   onDateChange(date) {
-    this.setState({ value: date },
-      () => this.props.updateValue(this.props.attributes.name, this.state.value));
+    this.props.updateValue(this.props.attributes.name, date);
   }
   showTimePicker = async (stateKey) => {
-    const currentDate = this.state.value || new Date();
+    const currentDate = this.props.attributes.value || new Date();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
@@ -53,13 +54,14 @@ export default class DatePickerField extends Component {
     }
   };
   showDatePicker = async (stateKey) => {
-    const currentDate = this.state.value || new Date();
+    const attributes = this.props.attributes;
+    const currentDate = attributes.value || new Date();
     try {
       const { action, year, month, day } = await DatePickerAndroid.open(
         {
           date: currentDate,
-          minDate: this.props.attributes.minDate,
-          maxDate: this.props.attributes.maxDate,
+          minDate: attributes.minDate,
+          maxDate: attributes.maxDate,
         }
       );
       if (action !== DatePickerAndroid.dismissedAction) {
@@ -81,6 +83,7 @@ export default class DatePickerField extends Component {
   render() {
     const theme = this.props.theme;
     const attributes = this.props.attributes;
+    const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || 'datetime';
     return (
       <View>
@@ -121,7 +124,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (this.state.value && I18n.strftime(this.state.value, '%d %b %Y')) || 'None' }
+                    { (value && I18n.strftime(value, '%d %b %Y')) || 'None' }
                   </Text>
                 </View>
             }
@@ -136,7 +139,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (this.state.value && I18n.strftime(this.state.value, '%I:%M %p')) || 'None' }
+                    { (value && I18n.strftime(value, '%I:%M %p')) || 'None' }
                   </Text>
                 </View>
             }
@@ -146,11 +149,11 @@ export default class DatePickerField extends Component {
               ref={(c) => { this.panel = c; }}
             >
               <DatePickerIOS
-                date={this.state.value || new Date()}
+                date={value || new Date()}
                 mode={mode}
                 maximumDate={attributes.maxDate}
                 minimumDate={attributes.minDate}
-                timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+                timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />
             </Panel>
@@ -186,8 +189,8 @@ export default class DatePickerField extends Component {
                     marginHorizontal: 5,
                   }}
                 >
-                  <Text onPress={() => this.showDatePicker()}>
-                    { (this.state.value && I18n.strftime(this.state.value, '%d %b %Y')) || 'Date' }
+                  <Text onPress={this.showDatePicker}>
+                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Date' }
                   </Text>
                 </TouchableOpacity>
             }
@@ -201,8 +204,8 @@ export default class DatePickerField extends Component {
                   marginHorizontal: 5,
                 }}
               >
-                <Text onPress={() => this.showTimePicker()}>
-                  { (this.state.value && I18n.strftime(this.state.value, '%I:%M %p')) || 'Time' }
+                <Text onPress={this.showTimePicker}>
+                  { (value && I18n.strftime(value, '%I:%M %p')) || 'Time' }
                 </Text>
                 </TouchableOpacity>
             }
