@@ -5,7 +5,10 @@
  */
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import dismissKeyboard from 'dismissKeyboard';
+import { Content, Container } from 'native-base';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
@@ -14,6 +17,7 @@ import DateField from '../fields/date';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../utils/theme';
+
 
 function autoValidate(field) {
   let error = false;
@@ -173,8 +177,18 @@ export default class FormBuilder extends Component {
     */
     //  reset form values to default as well as errors
     this.resetForm = this.resetForm.bind(this);
+    // Manages textInput Focus
+    this.onSummitTextInput = this.onSummitTextInput.bind(this);
   }
-
+  onSummitTextInput(name) {
+    const index = Object.keys(this.state).indexOf(name);
+    if (index !== -1 && this[Object.keys(this.state)[index + 1]]
+    && this[Object.keys(this.state)[index + 1]].textInput) {
+      this[Object.keys(this.state)[index + 1]].textInput._root.focus();
+    } else {
+      dismissKeyboard();
+    }
+  }
   onValueChange(name, value) {
     console.log('VALUE IS CHANGING', name, value);
     const valueObj = this.state[name];
@@ -345,6 +359,7 @@ export default class FormBuilder extends Component {
                 key={index}
                 theme={theme}
                 ref={(c) => { this[field.name] = c; }}
+                onSummitTextInput={this.onSummitTextInput}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
               />
@@ -409,9 +424,14 @@ export default class FormBuilder extends Component {
   render() {
     console.log('THIS IS STATE & PROPS', this.state, this.props, this);
     return (
-      <View>
-        {this.generateFields()}
-      </View>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="always"
+      >
+        <View>
+          {this.generateFields() || <View />}
+        </View>
+      </KeyboardAwareScrollView>
+
     );
   }
 }

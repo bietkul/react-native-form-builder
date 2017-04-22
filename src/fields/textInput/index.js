@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Item, Input, Icon, ListItem, Text } from 'native-base';
 import { Platform } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { getKeyboardType } from '../../utils/methods';
 
 export default class TextInputField extends Component {
@@ -8,6 +9,7 @@ export default class TextInputField extends Component {
     attributes: React.PropTypes.object,
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
+    onSummitTextInput: React.PropTypes.func,
   }
   // constructor(props) {
   //   super(props);
@@ -37,17 +39,20 @@ export default class TextInputField extends Component {
         <View style={{ flex: 1 }}>
           <View>
             <Item error={attributes.error}>
-              { attributes.iconName &&
-              <Icon name={attributes.iconName} />
+              { attributes.icon &&
+              <Icon name={attributes.icon} />
                 }
               <Input
                 style={{
                   height: inputProps && inputProps.multiline && (Platform.OS === 'ios' ? undefined : null),
                   padding: 0,
                 }}
+                ref={(c) => { this.textInput = c; }}
                 underlineColorAndroid="transparent"
                 numberOfLines={3}
                 placeholder={attributes.label}
+                blurOnSubmit={false}
+                onSubmitEditing={() => this.props.onSummitTextInput(this.props.attributes.name)}
                 placeholderTextColor={theme.inputColorPlaceholder}
                 editable={attributes.editable}
                 value={attributes.value}
