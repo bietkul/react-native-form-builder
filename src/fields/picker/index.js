@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'native-base';
 import { Platform, Picker, TouchableOpacity } from 'react-native';
 import Panel from '../../components/panel';
+import styles from './../../styles';
 
 const Item = Picker.Item;
 export default class PickerField extends Component {
@@ -36,17 +37,11 @@ export default class PickerField extends Component {
     if (Platform.OS !== 'ios') {
       return (
         <View
-          style={{
+          style={Object.assign(styles.pickerMainAndroid, {
             backgroundColor: theme.pickerBgColor,
             borderBottomColor: theme.inputBorderColor,
             borderBottomWidth: theme.borderWidth,
-            marginHorizontal: 10,
-            marginVertical: 0,
-            marginLeft: 15,
-            flexDirection: 'row',
-            alignItems: 'center',
-            flex: 1,
-          }}
+          })}
         >
           <View style={{ flex: 7 }}>
             <Text style={{ color: theme.inputColorPlaceholder }}>{attributes.label}</Text>
@@ -66,22 +61,17 @@ export default class PickerField extends Component {
               }
             </Picker>
           </View>
-
         </View>
 
       );
     }
     return (
       <View
-        style={{
+        style={Object.assign(styles.pickerMainIOS, {
           backgroundColor: theme.pickerBgColor,
           borderBottomColor: theme.inputBorderColor,
           borderBottomWidth: theme.borderWidth,
-          marginHorizontal: 10,
-          marginVertical: 0,
-          marginLeft: 15,
-          flex: 1,
-        }}
+        })}
       >
         <TouchableOpacity
           onPress={() => this.panel.toggle()}

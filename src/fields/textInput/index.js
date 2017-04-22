@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Item, Input, Icon } from 'native-base';
+import { View, Item, Input, Icon, ListItem, Text } from 'native-base';
 import { Platform } from 'react-native';
 import { getKeyboardType } from '../../utils/methods';
 
@@ -29,35 +29,42 @@ export default class TextInputField extends Component {
   render() {
     console.log('THISESRB ARE PROPS IN TEXTINPUT', this.props);
     const attributes = this.props.attributes;
+    const inputProps = attributes.props;
     const keyboardType = getKeyboardType(attributes.type);
     const theme = this.props.theme;
     return (
-      <View
-        style={{
-          backgroundColor: theme.textInputBgColor,
-          marginHorizontal: 10,
-          marginVertical: 0,
-          justifyContent: 'center',
-        }}
-      >
-        <Item error={attributes.error}>
-          <Input
-            style={{ height: attributes.multiline && (Platform.OS === 'ios' ? undefined : null) }}
-            underlineColorAndroid="transparent"
-            placeholder={attributes.label}
-            placeholderTextColor={theme.inputColorPlaceholder}
-            multiline={attributes.multiline}
-            secureTextEntry={attributes.secureTextEntry}
-            editable={attributes.editable}
-            numberOfLines={attributes.numberOfLines || 2}
-            value={attributes.value}
-            keyboardType={keyboardType}
-            onChangeText={text => this.handleChange(text)}
-          />
-          { attributes.error ?
-            <Icon name="close-circle" /> : null}
-        </Item>
-      </View>
+      <ListItem style={{ borderWidth: 0, paddingVertical: 5 }}>
+        <View style={{ flex: 1 }}>
+          <View>
+            <Item error={attributes.error}>
+              { attributes.iconName &&
+              <Icon name={attributes.iconName} />
+                }
+              <Input
+                style={{
+                  height: inputProps && inputProps.multiline && (Platform.OS === 'ios' ? undefined : null),
+                  padding: 0,
+                }}
+                underlineColorAndroid="transparent"
+                numberOfLines={3}
+                placeholder={attributes.label}
+                placeholderTextColor={theme.inputColorPlaceholder}
+                editable={attributes.editable}
+                value={attributes.value}
+                keyboardType={keyboardType}
+                onChangeText={text => this.handleChange(text)}
+                {...inputProps}
+              />
+              { attributes.error ?
+                <Icon name="close-circle" /> : null}
+            </Item>
+          </View>
+          <Text style={{ color: '#ed2f2f' }}>
+            {attributes.errorMsg}
+          </Text>
+        </View>
+      </ListItem>
+
     );
   }
 }
