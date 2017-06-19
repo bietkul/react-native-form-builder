@@ -129,7 +129,7 @@ It looks something like that :
 ##### Common Properties to all Fields ( applicable to all fields )
 | Property  | Required  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| type | `yes` | `enum` only possible values are : {text, password, form, email, number, url, select, switch, date } | if `false` then auto validation script will not run i.e formBuilder will not validate form data automatically. |
+| type | `yes` | `enum` only possible values are : { text, password, group, email, number, url, select, switch, date } | if `false` then auto validation script will not run i.e formBuilder will not validate form data automatically. |
 | name | `yes` | `string` | Every field should has a name which works as an unique identifier for that field. |
 | label | `yes` | `string` | Field label to display. |
 | editable | `No` | `bool` | To decide that whether a field is editable or not. |
@@ -139,16 +139,90 @@ It looks something like that :
 
 ##### Field Types
 ##### TextInput 
-Supports all these kind of types : 
-```text,
+Supports all these kind of types :-
+text,
 password,
 email,
 url,
-number```
+number
+
 ###### Extra Properties
 | Props  | Default | Type | Description |
-| :------------ |:--------------- |:---------------|
+| :------------ |:--------------- |:---------------| :-----|
 | iconName | N/A | `string` | Sets the icon, you can use any icon name which is available in `react-native-vector-icons`|  
-| iconOrientaion | `left` | `left` or `right` | Adjust icon orientation |
-| props | N/A | `object` | Here you can define extra props which are applicable of react native TextInput Component for e.g. ```{ multiline: true, secureTextEntry : true .... }``` 
- 
+| iconOrientaion | `left (default)` or `right` | `string` | Adjust icon orientation |
+| props | N/A | `object` | Here you can define extra props which are applicable of react native TextInput Component for e.g. { multiline: true, secureTextEntry : true .... }
+
+###### Value Type : `String` ( Except for type `number` )
+
+##### Picker (type: `picker`)
+Uses native picker
+
+###### Extra Properties
+| Props  | Default | Type | Description |
+| :------------ |:--------------- |:---------------| :-----| 
+| options (required) | N/A | `array` | An array of strings to define available options for e.g. ['CAR', 'BIKE', 'BICYCLE'] |
+| props | N/A | `object` | Here you can define extra props which are applicable of react native Picker Component for e.g. { mode: 'dropdown', .... }
+
+###### Value Type : `String`
+
+###### Default Value Type :
+You can set default value as a string which must be present in available options.
+For e.g If options are ['CAR', 'BIKE', 'BICYCLE'] then you can define `defaultValue = 'BIKE'`
+
+##### Switch (type: `switch`)
+It's an implement of React Native `switch` component.
+
+###### Value Type : `Boolean`
+
+##### Date (type: `string`)
+
+###### Extra Properties
+| Props  | Default | Type | Description |
+| :------------ |:--------------- |:---------------| :-----| 
+| mode | `datetime` | `string` | To define type of date picker, available values are `date, time, datetime` |
+| maxDate | N/A | `string` or `JS Date object` | To define the maximum date can be select in date picker  |
+| minDate | N/A | `string` or `JS Date object` | To define the minimum date can be select in date picker  |
+
+
+###### Value Type : `String`
+###### Default Value Type : `string` or `JS Date object`
+
+##### Select
+
+###### Extra Properties
+| Props | Required | Default | Type | Description |
+| :------------| :------------ |:--------------- |:---------------| :-----| 
+| multiple | `No` | `false` | `bool` | To define that the field can accept multple values or not i.e user can select multiple values at a time or not. |
+| objectType | `No` |  `false` | `string` | To define that the values can be of object or not.If `true`, then you need to specify `labelKey` & `primaryKey`  |
+| labelKey | `Yes` if `objectType = true` | `N/A` | `string` | To define the key which value need to be used as label. |
+| primaryKey | `Yes` if `objectType = true` |  `N/A` | `string` | To define the key which is unique in all objects.  |
+| options | `Yes` |  `N/A` | array of `objects` or `strings` | An array of `objects` or `strings` containing all available options.|
+
+###### Value Type : Array of `Strings` or `Objects`
+###### Array of Strings
+For e.g. `options = ['CAR', 'BIKE', 'BICYCLE']`
+###### Array of Objects
+If you're using array of objects then please don't forget to define these properties:
+```jsx
+objectType: true,
+labelKey: 'name', // For Below example
+primaryKey: 'id,  // For Below example
+```
+For e.g.
+```
+options: [
+        {
+          id: 1,
+          name: 'CAR',
+        },
+        {
+          id: 2,
+          name: 'BIKE',
+        },
+        {
+          id: 3,
+          name: 'BICYCLE',
+        },
+      ]
+```
