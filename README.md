@@ -1,4 +1,10 @@
 # react-native-form-builder
+## Features
+- Generate Form Fields UI
+- Manage, track state & values of fields
+- Automatically manages focus to next field on submit (TextInput)
+- Handle all keyboard related problems smartly
+- Supports custom validations & nested forms 
 
 ## Getting Started
 
@@ -6,15 +12,18 @@
 - [Basic Usage](#basic-usage)
 - [Properties](#properties)
   + [Basic](#basic)
-  + [Custom basic style & content](#custom-basic-style--content)
-  + [Pagination](#pagination)
-  + [Autoplay](#autoplay)
-  + [Control buttons](#control-buttons)
-  + [Props of Children](#props-of-children)
-  + [Basic props of `<ScrollView />`](#basic-props-of-scrollview-)
-  + [Supported ScrollResponder](#supported-scrollresponder)
-- [Examples](#examples)
-- [Development](#development)
+  + [Form Fields](#form-fields)
+   + [Field Structure](#field-structure) 
+   + [Common Properties to all Fields](#common-properties-to-all-fields)
+   + [Field Types](#field-types)
+    + [TextInput](#textinput)
+    + [Picker](#picker)
+    + [Switch](#switch)
+    + [Date](#date)
+    + [Select](#select)
+   + [Nested Forms](#nested-forms)
+   + [Add Custom Validations](#add-custom-validations)
+   + [Customize Your Form](#customize-your-form)
 
 ### Installation
 
@@ -115,8 +124,8 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 | customValidation | N/A | `function` | This function will be triggered everytime before a field changes it's value, here you can write your custom validation script & set error accordingly. |
 | fields | `required` | `array` | Array of form fields. |
 
-#### FormFields
-##### Basic Structure
+#### Form Fields
+##### Field Structure
 A field is an object which has the properties required to generate it.
 It looks something like that :
 ```jsx
@@ -126,7 +135,9 @@ It looks something like that :
   label: 'Username'
 }
 ```
-##### Common Properties to all Fields ( applicable to all fields )
+##### Common Properties to all Fields
+These properties are applicable on all fields.
+
 | Property  | Required  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
 | type | `yes` | `enum` only possible values are : { text, password, group, email, number, url, select, switch, date } | if `false` then auto validation script will not run i.e formBuilder will not validate form data automatically. |
@@ -155,7 +166,8 @@ number
 
 ###### Value Type : `String` ( Except for type `number` )
 
-##### Picker (type: `picker`)
+##### Picker 
+`type: picker`
 Uses native picker
 
 ###### Extra Properties
@@ -170,7 +182,8 @@ Uses native picker
 You can set default value as a string which must be present in available options.
 For e.g If options are ['CAR', 'BIKE', 'BICYCLE'] then you can define `defaultValue = 'BIKE'`
 
-##### Switch (type: `switch`)
+##### Switch 
+`(type: switch)`
 It's an implement of React Native `switch` component.
 
 ###### Value Type : `Boolean`
@@ -240,7 +253,8 @@ In case of string values:
 defaultValue: ['CAR', 'BIKE'],
 ```
 
-### Nested Forms (type: `group`)
+### Nested Forms 
+`(type: group)`
 Form Builder also supports nested forms, some times you need to wrap all of your form values in an object or we can say that you have some nested fields, in this case you can define `group` fields.
 An example will better explain it:
 
