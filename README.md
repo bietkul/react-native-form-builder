@@ -45,7 +45,7 @@ $ npm i react-native -g
 $ react-native init myproject
 ```
 
-- Then, edit `myproject/index.ios.js`, like this:
+- Then, edit `myproject/index.ios.js`, like this:  
 Example: Login Form consisting of three fields (username, password, country)
 
 ```jsx
@@ -130,9 +130,9 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 Currently, these methods are available in FormBuilder, you can access them by using ref property.
 
 ### getValues
-To extract the values of form fields.
-Returns: An object consisting of field values (fieldName: value).
-for e.g  
+To extract the values of form fields.  
+Returns: An object consisting of field values (fieldName: value).  
+for e.g    
 ```
 {
   username: 'bietkul'
@@ -140,24 +140,23 @@ for e.g
 }
 ```
 ### setValues
-Forcefully set values for particular fields.
-Parameters: An array of strings, where every string is the name of a field for which value has to be set as default value.
+Forcefully set values for particular fields. 
+Parameters: An array of objects, where every object must has two keys :  
+name: Field name for which value has to be set.  
+value: Value for that particular field  
 For e.g
 ```
-[fieldName1, fieldName2, fieldName3 .....]
+[{name: String, value: any}, {name: String, value: name}.....] 
 ```
 ### resetForm
 Reset Form values as well as errors.
 ### setToDefault
-Forcefully set values to default for particular fields.
-Parameters: An array of objects, where every object must has two keys :
-name: Field name for which value has to be set.
-value: Value for that particular field
+Forcefully set values to default for particular fields.  
+Parameters: An array of strings, where every string is the name of a field for which value has to be set as default value.  
 For e.g
 ```
-[{name: String, value: any}, {name: String, value: name}.....]
+[fieldName1, fieldName2, fieldName3 .....]
 ```
-
 
 ### Form Fields
 ### Field Structure
