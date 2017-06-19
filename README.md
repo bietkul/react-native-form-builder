@@ -12,6 +12,7 @@
 - [Basic Usage](#basic-usage)
 - [Properties](#properties)
   + [Basic](#basic)
+  + [Methods](#methods)
   - [Form Fields](#form-fields)
     + [Field Structure](#field-structure) 
     + [Common Properties to all Fields](#common-properties-to-all-fields)
@@ -25,13 +26,13 @@
    + [Add Custom Validations](#add-custom-validations)
    + [Customize Your Form](#customize-your-form)
 
-### Installation
+## Installation
 
 ```bash
 $ npm i react-native-form-builder --save
 ```
 
-### Basic Usage
+## Basic Usage
 
 - Install `react-native` first
 
@@ -116,16 +117,50 @@ export default class FormGenerator extends Component {
 
 AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 ```
-### Properties
-#### Basic
+## Properties
+### Basic
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
 | autoValidation | true | `bool` | if `false` then auto validation script will not run i.e formBuilder will not validate form data automatically. |
+| onValueChange | N/A | `function` | Invoked every time after a field changes it's value |
 | customValidation | N/A | `function` | This function will be triggered everytime before a field changes it's value, here you can write your custom validation script & set error accordingly. |
 | fields | `required` | `array` | Array of form fields. |
 
-#### Form Fields
-#### Field Structure
+### Methods:
+Currently, these methods are available in FormBuilder, you can access them by using ref property.
+
+### getValues
+To extract the values of form fields.
+Returns: An object consisting of field values (fieldName: value).
+for e.g  
+```
+{
+  username: 'bietkul'
+  password: 'bietkul@git'
+}
+```
+### setValues
+Forcefully set values for particular fields.
+Parameters: An array of strings, where every string is the name of a field for which value has to be set as default value.
+For e.g
+```
+[fieldName1, fieldName2, fieldName3 .....]
+```
+### resetForm
+Reset Form values as well as errors.
+### setToDefault
+Forcefully set values to default for particular fields.
+Parameters: An array of objects, where every object must has two keys :
+name: Field name for which value has to be set.
+value: Value for that particular field
+For e.g
+```
+[{name: String, value: any}, {name: String, value: name}.....]
+```
+
+
+### Form Fields
+### Field Structure
 A field is an object which has the properties required to generate it.
 It looks something like that :
 ```jsx
@@ -135,7 +170,7 @@ It looks something like that :
   label: 'Username'
 }
 ```
-#### Common Properties to all Fields
+### Common Properties to all Fields
 These properties are applicable on all fields.
 
 | Property  | Required  | Type | Description |
@@ -148,8 +183,8 @@ These properties are applicable on all fields.
 | defaultValue | `No` | `Depends on field's type` | Sets the intial value for that field before the form initialization. |
 | hidden | `No` | `bool` | If `true` then a field will not be displayed. |
 
-#### Field Types
-#### TextInput 
+### Field Types
+### TextInput 
 Supports all these kind of types :-
 text,
 password,
@@ -157,41 +192,41 @@ email,
 url,
 number
 
-##### Extra Properties
+#### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----|
 | iconName | N/A | `string` | Sets the icon, you can use any icon name which is available in `react-native-vector-icons`|  
 | iconOrientaion | `left (default)` or `right` | `string` | Adjust icon orientation |
 | props | N/A | `object` | Here you can define extra props which are applicable of react native TextInput Component for e.g. { multiline: true, secureTextEntry : true .... }
 
-##### Value Type : `String` ( Except for type `number` )
+#### Value Type : `String` ( Except for type `number` )
 
-#### Picker 
+### Picker 
 `type: picker`
 Uses native picker
 
-##### Extra Properties
+#### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----| 
 | options (required) | N/A | `array` | An array of strings to define available options for e.g. ['CAR', 'BIKE', 'BICYCLE'] |
 | props | N/A | `object` | Here you can define extra props which are applicable of react native Picker Component for e.g. { mode: 'dropdown', .... }
 
-##### Value Type : `String`
+#### Value Type : `String`
 
-##### Default Value Type :
+#### Default Value Type :
 You can set default value as a string which must be present in available options.
 For e.g If options are ['CAR', 'BIKE', 'BICYCLE'] then you can define `defaultValue = 'BIKE'`
 
-#### Switch 
+### Switch 
 `(type: switch)`
 It's an implement of React Native `switch` component.
 
-##### Value Type : `Boolean`
+#### Value Type : `Boolean`
 
-#### Date 
+### Date 
 `(type: string)`
 
-##### Extra Properties
+#### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----| 
 | mode | `datetime` | `string` | To define type of date picker, available values are `date, time, datetime` |
@@ -199,12 +234,12 @@ It's an implement of React Native `switch` component.
 | minDate | N/A | `string` or `JS Date object` | To define the minimum date can be select in date picker  |
 
 
-##### Value Type : `String`
-##### Default Value Type : `string` or `JS Date object`
+#### Value Type : `String`
+#### Default Value Type : `string` or `JS Date object`
 
-#### Select
+### Select
 
-##### Extra Properties
+#### Extra Properties
 | Props | Required | Default | Type | Description |
 | :------------| :------------ |:--------------- |:---------------| :-----| 
 | multiple | `No` | `false` | `bool` | To define that the field can accept multple values or not i.e user can select multiple values at a time or not. |
@@ -213,10 +248,10 @@ It's an implement of React Native `switch` component.
 | primaryKey | `Yes` if `objectType = true` |  `N/A` | `string` | To define the key which is unique in all objects.  |
 | options | `Yes` |  `N/A` | array of `objects` or `strings` | An array of `objects` or `strings` containing all available options.|
 
-##### Value Type : Array of `Strings` or `Objects`
-##### Array of Strings
+#### Value Type : Array of `Strings` or `Objects`
+#### Array of Strings
 For e.g. `options = ['CAR', 'BIKE', 'BICYCLE']`
-##### Array of Objects
+#### Array of Objects
 If you're using array of objects then please don't forget to define these properties:
 ```jsx
 objectType: true,
@@ -240,7 +275,7 @@ options: [
         },
       ]
 ```
-##### Default Value Type : `string` or `JS Date object`
+#### Default Value Type : `string` or `JS Date object`
 In case of object values:
 ```
 defaultValue: [{
@@ -254,7 +289,7 @@ In case of string values:
 defaultValue: ['CAR', 'BIKE'],
 ```
 
-### Nested Forms 
+## Nested Forms 
 `(type: group)`
 Form Builder also supports nested forms, some times you need to wrap all of your form values in an object or we can say that you have some nested fields, in this case you can define `group` fields.
 An example will better explain it:
@@ -280,19 +315,19 @@ An example will better explain it:
       ],
     },
 ```
-##### Value Type : `Object`
+#### Value Type : `Object`
 
 For above example the return value object will be something like that:
 ```
 { city: 'Bangalore', country: 'INDIA' }
 ```
-##### Default Value Type : `Object`
+#### Default Value Type : `Object`
 
 You can set default value for above example like that: 
 ```
 { city: 'Newyork', country: 'US' }
 ```
-### Add Custom Validations
+## Add Custom Validations
 
 It's very easy to add your custom validations & error messages with FormBuilder.All you need to do is define a function & pass it as `customValidation` prop.
 
@@ -314,14 +349,17 @@ For e.g.
 ```
 Note: Always return an object which will have two entities `error` type of `boolean` & `errorMsg` type of `string`.
 
-### Customize your form
+## Customize your form
 - Eject Theme by running this command
 ```bash
 node node_modules/react-native-form-builder/ejectTheme.js
 ```
 It will create a folder named `form-builder-theme` in your project's root folder.
+
 Customize your theme.
+
 Import theme from `form-builder-theme` folder.
+
 Use it by passing as `theme` prop.
 ```
 import theme from '../form-builder-theme';
