@@ -226,3 +226,98 @@ options: [
         },
       ]
 ```
+###### Default Value Type : `string` or `JS Date object`
+In case of object values:
+```
+defaultValue: [{
+        id: 3,
+        name: 'kuldeep2',
+        title: 'saxena2',
+      }],
+ ```
+In case of string values: 
+```
+defaultValue: ['CAR', 'BIKE'],
+```
+
+### Nested Forms (type: `group`)
+Form Builder also supports nested forms, some times you need to wrap all of your form values in an object or we can say that you have some nested fields, in this case you can define `group` fields.
+An example will better explain it:
+
+```
+{
+      type: 'group',
+      name: 'address',
+      label: 'Address',
+      fields: [
+        {
+          type: 'text',
+          name: 'city',
+          label: 'City',
+        },
+        {
+          type: 'picker',
+          name: 'country',
+          label: 'Country',
+          defaultValue: 'INDIA',
+          options: ['US', 'INDIA', 'UK', 'CHINA', 'FRANCE'],
+        },
+      ],
+    },
+```
+###### Value Type : `Object`
+
+For above example the return value object will be something like that:
+```
+{ city: 'Bangalore', country: 'INDIA' }
+```
+###### Default Value Type : `Object`
+
+You can set default value for above example like that: 
+```
+{ city: 'Newyork', country: 'US' }
+```
+### Add Custom Validations
+
+It's very easy to add your custom validations & error messages with FormBuilder.All you need to do is define a function & pass it as `customValidation` prop.
+
+For e.g. 
+```
+ function validate(field) {
+   let error = false;
+   let errorMsg = '';
+   if (field.name === 'username' && !(field.value && field.value.trim())) {
+     error = true;
+     errorMsg = 'Username is required';
+   }
+   if (field.name === 'password' && !(field.value && field.value.trim())) {
+     error = true;
+     errorMsg = 'Password is required';
+   }
+   return { error, errorMsg };
+ }
+```
+Note: Always return an object which will have two entities `error` type of `boolean` & `errorMsg` type of `string`.
+
+### Customize your form
+- Eject Theme by running this command
+```bash
+node node_modules/react-native-form-builder/ejectTheme.js
+```
+It will create a folder named `form-builder-theme` in your project's root folder.
+Customize your theme.
+Import theme from `form-builder-theme` folder.
+Use it by passing as `theme` prop.
+```
+import theme from '../form-builder-theme';
+....
+ <GenerateForm
+  ref={(c) => { this.formGenerator = c; }}
+  theme = {theme}
+  ....
+  />
+```
+ 
+
+
+
