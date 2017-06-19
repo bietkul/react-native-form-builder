@@ -12,15 +12,15 @@
 - [Basic Usage](#basic-usage)
 - [Properties](#properties)
   + [Basic](#basic)
-  + [Form Fields](#form-fields)
-   + [Field Structure](#field-structure) 
-   + [Common Properties to all Fields](#common-properties-to-all-fields)
-   + [Field Types](#field-types)
-    + [TextInput](#textinput)
-    + [Picker](#picker)
-    + [Switch](#switch)
-    + [Date](#date)
-    + [Select](#select)
+  - [Form Fields](#form-fields)
+    + [Field Structure](#field-structure) 
+    + [Common Properties to all Fields](#common-properties-to-all-fields)
+    - [Field Types](#field-types)
+      + [TextInput](#textinput)
+      + [Picker](#picker)
+      + [Switch](#switch)
+      + [Date](#date)
+      + [Select](#select)
    + [Nested Forms](#nested-forms)
    + [Add Custom Validations](#add-custom-validations)
    + [Customize Your Form](#customize-your-form)
@@ -125,7 +125,7 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 | fields | `required` | `array` | Array of form fields. |
 
 #### Form Fields
-##### Field Structure
+#### Field Structure
 A field is an object which has the properties required to generate it.
 It looks something like that :
 ```jsx
@@ -135,7 +135,7 @@ It looks something like that :
   label: 'Username'
 }
 ```
-##### Common Properties to all Fields
+#### Common Properties to all Fields
 These properties are applicable on all fields.
 
 | Property  | Required  | Type | Description |
@@ -148,8 +148,8 @@ These properties are applicable on all fields.
 | defaultValue | `No` | `Depends on field's type` | Sets the intial value for that field before the form initialization. |
 | hidden | `No` | `bool` | If `true` then a field will not be displayed. |
 
-##### Field Types
-##### TextInput 
+#### Field Types
+#### TextInput 
 Supports all these kind of types :-
 text,
 password,
@@ -157,40 +157,41 @@ email,
 url,
 number
 
-###### Extra Properties
+##### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----|
 | iconName | N/A | `string` | Sets the icon, you can use any icon name which is available in `react-native-vector-icons`|  
 | iconOrientaion | `left (default)` or `right` | `string` | Adjust icon orientation |
 | props | N/A | `object` | Here you can define extra props which are applicable of react native TextInput Component for e.g. { multiline: true, secureTextEntry : true .... }
 
-###### Value Type : `String` ( Except for type `number` )
+##### Value Type : `String` ( Except for type `number` )
 
-##### Picker 
+#### Picker 
 `type: picker`
 Uses native picker
 
-###### Extra Properties
+##### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----| 
 | options (required) | N/A | `array` | An array of strings to define available options for e.g. ['CAR', 'BIKE', 'BICYCLE'] |
 | props | N/A | `object` | Here you can define extra props which are applicable of react native Picker Component for e.g. { mode: 'dropdown', .... }
 
-###### Value Type : `String`
+##### Value Type : `String`
 
-###### Default Value Type :
+##### Default Value Type :
 You can set default value as a string which must be present in available options.
 For e.g If options are ['CAR', 'BIKE', 'BICYCLE'] then you can define `defaultValue = 'BIKE'`
 
-##### Switch 
+#### Switch 
 `(type: switch)`
 It's an implement of React Native `switch` component.
 
-###### Value Type : `Boolean`
+##### Value Type : `Boolean`
 
-##### Date (type: `string`)
+#### Date 
+`(type: string)`
 
-###### Extra Properties
+##### Extra Properties
 | Props  | Default | Type | Description |
 | :------------ |:--------------- |:---------------| :-----| 
 | mode | `datetime` | `string` | To define type of date picker, available values are `date, time, datetime` |
@@ -198,12 +199,12 @@ It's an implement of React Native `switch` component.
 | minDate | N/A | `string` or `JS Date object` | To define the minimum date can be select in date picker  |
 
 
-###### Value Type : `String`
-###### Default Value Type : `string` or `JS Date object`
+##### Value Type : `String`
+##### Default Value Type : `string` or `JS Date object`
 
-##### Select
+#### Select
 
-###### Extra Properties
+##### Extra Properties
 | Props | Required | Default | Type | Description |
 | :------------| :------------ |:--------------- |:---------------| :-----| 
 | multiple | `No` | `false` | `bool` | To define that the field can accept multple values or not i.e user can select multiple values at a time or not. |
@@ -212,10 +213,10 @@ It's an implement of React Native `switch` component.
 | primaryKey | `Yes` if `objectType = true` |  `N/A` | `string` | To define the key which is unique in all objects.  |
 | options | `Yes` |  `N/A` | array of `objects` or `strings` | An array of `objects` or `strings` containing all available options.|
 
-###### Value Type : Array of `Strings` or `Objects`
-###### Array of Strings
+##### Value Type : Array of `Strings` or `Objects`
+##### Array of Strings
 For e.g. `options = ['CAR', 'BIKE', 'BICYCLE']`
-###### Array of Objects
+##### Array of Objects
 If you're using array of objects then please don't forget to define these properties:
 ```jsx
 objectType: true,
@@ -239,7 +240,7 @@ options: [
         },
       ]
 ```
-###### Default Value Type : `string` or `JS Date object`
+##### Default Value Type : `string` or `JS Date object`
 In case of object values:
 ```
 defaultValue: [{
@@ -279,13 +280,13 @@ An example will better explain it:
       ],
     },
 ```
-###### Value Type : `Object`
+##### Value Type : `Object`
 
 For above example the return value object will be something like that:
 ```
 { city: 'Bangalore', country: 'INDIA' }
 ```
-###### Default Value Type : `Object`
+##### Default Value Type : `Object`
 
 You can set default value for above example like that: 
 ```
