@@ -146,7 +146,7 @@ name: Field name for which value has to be set.
 value: Value for that particular field  
 For e.g
 ```
-[{name: String, value: any}, {name: String, value: name}.....] 
+[{name: String, value: any}, {name: String, value: any}.....] 
 ```
 ### resetForm
 Reset Form values as well as errors.
@@ -174,7 +174,7 @@ These properties are applicable on all fields.
 
 | Property  | Required  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| type | `yes` | `enum` only possible values are : { text, password, group, email, number, url, select, switch, date } | if `false` then auto validation script will not run i.e formBuilder will not validate form data automatically. |
+| type | `yes` | `enum` only possible values are : { text, password, group, email, number, url, select, switch, date } | To define type of field. |
 | name | `yes` | `string` | Every field should has a name which works as an unique identifier for that field. |
 | label | `yes` | `string` | Field label to display. |
 | editable | `No` | `bool` | To decide that whether a field is editable or not. |
@@ -196,7 +196,7 @@ number
 | :------------ |:--------------- |:---------------| :-----|
 | iconName | N/A | `string` | Sets the icon, you can use any icon name which is available in `react-native-vector-icons`|  
 | iconOrientaion | `left (default)` or `right` | `string` | Adjust icon orientation |
-| props | N/A | `object` | Here you can define extra props which are applicable of react native TextInput Component for e.g. { multiline: true, secureTextEntry : true .... }
+| props | N/A | `object` | Here you can define extra props which are applicable for react native TextInput Component. For e.g. { multiline: true, secureTextEntry : true .... }
 
 #### Value Type : `String` ( Except for type `number` )
 
