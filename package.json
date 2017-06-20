@@ -1,6 +1,6 @@
 {
    "name":"react-native-form-builder",
-   "version":"1.0.3",
+   "version":"1.0.4",
    "description":"Generate Awesome Forms In an easy way",
    "main":"src/index.js",
    "scripts":{

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
@@ -10,7 +10,6 @@ import FormField from '../fields/form';
 import baseTheme from '../theme';
 import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
 
-const dismissKeyboard = require('dismissKeyboard');
 
 export default class FormBuilder extends Component {
   static propTypes = {
@@ -57,7 +56,7 @@ export default class FormBuilder extends Component {
     && this[Object.keys(this.state)[index + 1]].textInput) {
       this[Object.keys(this.state)[index + 1]].textInput._root.focus();
     } else {
-      dismissKeyboard();
+      Keyboard.dismiss(); 
     }
   }
   onValueChange(name, value) {
