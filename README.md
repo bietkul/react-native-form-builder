@@ -354,15 +354,15 @@ Note: Always return an object which will have two entities `error` type of `bool
 ```bash
 node node_modules/react-native-form-builder/ejectTheme.js
 ```
-It will create a folder named `form-builder-theme` in your project's root folder.
+It will create a file named `form-theme.js` in your project's root folder.
 
 Customize your theme.
 
-Import theme from `form-builder-theme` folder.
+Import theme from `form-them`.
 
 Use it by passing as `theme` prop.
 ```
-import theme from '../form-builder-theme';
+import theme from '../form-theme';
 ....
  <GenerateForm
   ref={(c) => { this.formGenerator = c; }}
