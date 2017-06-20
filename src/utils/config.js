@@ -10,8 +10,8 @@ export default {
       editable: false,
     },
     {
-      type: 'form',
-      name: 'address',
+      type: 'group',
+      name: 'address1',
       label: 'Address',
       fields: [
         {

@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/bietkul/react-native-form-builder/issues"
   },
-  "homepage": "https://github.com/bietkul/react-native-form-builder#readme"
+  "homepage": "https://github.com/bietkul/react-native-form-builder#readme",
+  "dependencies": {
+    "fs-extra": "^3.0.1",
+    "print-message": "^2.1.0"
+  }
 }

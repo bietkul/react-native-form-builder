@@ -31,8 +31,13 @@ export default class PickerField extends Component {
     this.props.updateValue(attributes.name, attributes.options[value]);
   }
   render() {
-    const theme = this.props.theme;
-    const attributes = this.props.attributes;
+    const { theme, attributes } = this.props;
+    const isValueValid = attributes.options.indexOf(attributes.value) > -1;
+    console.log('PROPS IN PICKER FIELDS',
+    attributes,
+    attributes.options,
+    attributes.options.indexOf(attributes.value),
+    attributes.options[attributes.value]);
     const pickerValue = attributes.options.indexOf(attributes.value).toString();
     if (Platform.OS !== 'ios') {
       return (
@@ -87,7 +92,7 @@ export default class PickerField extends Component {
             {attributes.label}
           </Text>
           <Text style={{ color: theme.inputColorPlaceholder }}>
-            {attributes.options[attributes.value] || 'None'}
+            {isValueValid ? attributes.value : 'None'}
           </Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>

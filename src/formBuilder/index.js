@@ -5,10 +5,9 @@
  */
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import dismissKeyboard from 'dismissKeyboard';
-import { Content, Container } from 'native-base';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
@@ -16,130 +15,8 @@ import DateField from '../fields/date';
 // import SliderField from '../fields/slider';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
-import baseTheme from '../utils/theme';
-
-
-function autoValidate(field) {
-  let error = false;
-  let errorMsg = '';
-  if (field.required) {
-    switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'url':
-      case 'password':
-        if (field.value.trim() === '') {
-          error = true;
-          errorMsg = `${field.label} is required`;
-        }
-        break;
-      case 'number':
-        if (field.type === 'number') {
-          if (field.value.trim() === '') {
-            error = true;
-            errorMsg = `${field.label} is required`;
-          } else if (isNaN(field.value)) {
-            errorMsg = `${field.label} Should be a number`;
-          }
-        }
-        break;
-      default:
-    }
-  }
-  console.log('THIS IS ERROR', error, errorMsg);
-  return { error, errorMsg };
-}
-function getDefaultValue(field) {
-  switch (field.type) {
-    case 'text':
-    case 'number':
-    case 'email':
-    case 'password':
-    case 'url':
-      return field.defaultValue || '';
-    case 'picker': {
-      if ((field.options).indexOf(field.defaultValue) !== -1) {
-        return field.defaultValue;
-      }
-      return field.options[0];
-    }
-    case 'select': {
-      if (Array.isArray(field.defaultValue)) {
-        const selected = [];
-        if (!field.objectType) {
-          field.defaultValue.forEach((item) => {
-            if ((field.options).indexOf(item) !== -1) {
-              selected.push(item);
-            }
-          });
-        } else {
-          field.defaultValue.forEach((item) => {
-            if ((field.options).findIndex(option =>
-              option[field.primaryKey] === item[field.primaryKey]
-            ) !== -1) {
-              selected.push(item);
-            }
-          });
-        }
-        return selected;
-      }
-      if (!field.multiple) {
-        return field.defaultValue || null;
-      }
-      return [];
-    }
-    case 'switch':
-      if (typeof field.defaultValue === 'boolean') {
-        return field.defaultValue;
-      }
-      return false;
-    case 'date':
-      if (field.defaultValue && !_.isNaN(field.defaultValue.getTime())) {
-        return field.defaultValue;
-      }
-      return null;
-    case 'group':
-      if (field.fields) {
-        return field.defaultValue;
-      }
-      return null;
-    default:
-      return null;
-  }
-}
-function getResetValue(field) {
-  switch (field.type) {
-    case 'text':
-    case 'number':
-    case 'email':
-    case 'password':
-    case 'url':
-      return '';
-    case 'picker':
-      return field.options[0];
-    case 'select':
-      return field.multiple ? [] : null;
-    case 'switch':
-      return false;
-    case 'date':
-      return null;
-    default:
-      return null;
-  }
-}
-function getInitState(fields) {
-  const state = {};
-  _.forEach(fields, (field) => {
-    const fieldObj = field;
-    fieldObj.error = false;
-    fieldObj.errorMsg = '';
-    if (!field.hidden && field.type) {
-      fieldObj.value = getDefaultValue(field);
-      state[field.name] = fieldObj;
-    }
-  });
-  return state;
-}
+import baseTheme from '../theme';
+import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
 
 export default class FormBuilder extends Component {
   static propTypes = {
@@ -422,7 +299,7 @@ export default class FormBuilder extends Component {
     return renderFields;
   }
   render() {
-    console.log('THIS IS STATE & PROPS', this.state, this.props, this);
+    console.log('THIS IS STATE & PROPS', this.state, this.props, this, baseTheme);
     return (
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"

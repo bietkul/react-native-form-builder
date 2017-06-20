@@ -129,6 +129,7 @@ Nested Fields
  {
   type: ‘text’,
   name: ‘Text’
+  label: 'address'
 },
 {
   type: ‘address’,
@@ -139,5 +140,9 @@ Nested Fields
     }
    ,{}
    ]
+### Customize Your Form
+- Eject Theme by running this command
+node node_modules/react-native-form-builder/ejectTheme.js
+
 
 ### Internationalization Support

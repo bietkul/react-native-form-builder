@@ -60,8 +60,8 @@ export default class DatePickerField extends Component {
       const { action, year, month, day } = await DatePickerAndroid.open(
         {
           date: currentDate,
-          minDate: attributes.minDate,
-          maxDate: attributes.maxDate,
+          minDate: attributes.minDate && new Date(attributes.minDate),
+          maxDate: attributes.maxDate && new Date(attributes.maxDate),
         }
       );
       if (action !== DatePickerAndroid.dismissedAction) {
@@ -151,8 +151,8 @@ export default class DatePickerField extends Component {
               <DatePickerIOS
                 date={value || new Date()}
                 mode={mode}
-                maximumDate={attributes.maxDate}
-                minimumDate={attributes.minDate}
+                maximumDate={attributes.maxDate && new Date(attributes.maxDate)}
+                minimumDate={attributes.minDate && new Date(attributes.minDate)}
                 timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />
@@ -199,7 +199,6 @@ export default class DatePickerField extends Component {
                 || attributes.mode === 'datetime')
               &&
               <TouchableOpacity
-                hitSlop={{ top: 10, bottom: 10, right: 50, left: 50 }}
                 style={{
                   marginHorizontal: 5,
                 }}

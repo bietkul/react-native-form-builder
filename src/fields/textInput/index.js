@@ -40,7 +40,7 @@ export default class TextInputField extends Component {
           <View>
             <Item error={attributes.error}>
               { attributes.icon &&
-              <Icon name={attributes.icon} />
+              <Icon color={theme.textInputIconColor} name={attributes.icon} />
                 }
               <Input
                 style={{
@@ -50,6 +50,7 @@ export default class TextInputField extends Component {
                 ref={(c) => { this.textInput = c; }}
                 underlineColorAndroid="transparent"
                 numberOfLines={3}
+                secureTextEntry={attributes.secureTextEntry || attributes.type === 'password'}
                 placeholder={attributes.label}
                 blurOnSubmit={false}
                 onSubmitEditing={() => this.props.onSummitTextInput(this.props.attributes.name)}
