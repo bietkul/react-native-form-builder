@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View } from 'native-base';
-import GenerateForm from 'react-native-form-builder';
+import { View, Text } from 'native-base';
+import GenerateForm from '../../formBuilder';
 
 export default class FormField extends Component {
   static propTypes = {
@@ -24,19 +24,23 @@ export default class FormField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, text));
   }
   render() {
-    console.log('THISESRB ARE PROPS IN FORM', this.state, this.props);
     const attributes = this.props.attributes;
     const theme = this.props.theme;
     return (
       <View>
-        <GenerateForm
-          ref={(c) => { this.group = c; }}
-          onValueChange={this.onValueChange}
-          autoValidation
-          showErrors
-          fields={attributes.fields}
-          theme={theme}
-        />
+        <View style={{ paddingHorizontal: 15, paddingVertical: 5 }}>
+          <Text style={{ fontWeight: '500', fontSize: 17 }}>{attributes.label}</Text>
+        </View>
+        <View style={{ paddingHorizontal: 10 }}>
+          <GenerateForm
+            ref={(c) => { this.group = c; }}
+            onValueChange={this.onValueChange}
+            autoValidation
+            showErrors
+            fields={attributes.fields}
+            theme={theme}
+          />
+        </View>
       </View>
     );
   }

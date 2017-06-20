@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import dismissKeyboard from 'dismissKeyboard';
@@ -12,7 +6,6 @@ import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
 import DateField from '../fields/date';
-// import SliderField from '../fields/slider';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../theme';
@@ -67,7 +60,6 @@ export default class FormBuilder extends Component {
     }
   }
   onValueChange(name, value) {
-    console.log('VALUE IS CHANGING', name, value);
     const valueObj = this.state[name];
     if (valueObj) {
       valueObj.value = value;
@@ -299,7 +291,6 @@ export default class FormBuilder extends Component {
     return renderFields;
   }
   render() {
-    console.log('THIS IS STATE & PROPS', this.state, this.props, this, baseTheme);
     return (
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"

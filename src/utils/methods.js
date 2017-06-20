@@ -38,7 +38,6 @@ export function autoValidate(field) {
       default:
     }
   }
-  console.log('THIS IS ERROR', error, errorMsg);
   return { error, errorMsg };
 }
 export function getDefaultValue(field) {

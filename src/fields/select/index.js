@@ -15,6 +15,7 @@ import {
   Title,
   Button,
 } from 'native-base';
+
 const deviceWidth = Dimensions.get('window').width;
 
 export default class SelectField extends Component {
@@ -27,18 +28,8 @@ export default class SelectField extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      // value: props.attributes.value,
     };
   }
-  // componentWillReceiveProps(nextProps) {
-  //   const newAttributes = nextProps.attributes;
-  //   if ((newAttributes &&
-  //     JSON.stringify(newAttributes.value)) !== JSON.stringify(this.state.value)) {
-  //     this.setState({
-  //       value: newAttributes.value,
-  //     });
-  //   }
-  // }
   toggleModalVisible() {
     this.setState({
       modalVisible: !this.state.modalVisible,
@@ -62,7 +53,6 @@ export default class SelectField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
   render() {
-    console.log('THESE ARE PROPS', this.props, this.state);
     const { attributes, theme } = this.props;
     const selectedText = attributes.multiple ?
     attributes.value.length || 'None' :

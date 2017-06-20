@@ -1,23 +1,48 @@
 {
-  "name": "react-native-form-builder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bietkul/react-native-form-builder.git"
-  },
-  "author": "Kuldeep Saxena",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bietkul/react-native-form-builder/issues"
-  },
-  "homepage": "https://github.com/bietkul/react-native-form-builder#readme",
-  "dependencies": {
-    "fs-extra": "^3.0.1",
-    "print-message": "^2.1.0"
-  }
+   "name":"react-native-form-builder",
+   "version":"1.0.0",
+   "description":"Generate Awesome Forms In an easy way",
+   "main":"src/index.js",
+   "scripts":{
+      "test":"echo \"Error: no test specified\" && exit 1"
+   },
+   "repository":{
+      "type":"git",
+      "url":"git+https://github.com/bietkul/react-native-form-builder.git"
+   },
+   "_npmUser":{
+      "name":"anjuma",
+      "email":"kuldepsaxena@155@gmail.com"
+   },
+   "author":"Kuldeep Saxena",
+   "license":"MIT",
+   "bugs":{
+      "url":"https://github.com/bietkul/react-native-form-builder/issues"
+   },
+   "homepage":"https://github.com/bietkul/react-native-form-builder#readme",
+   "keywords":[
+      "android",
+      "ios",
+      "react",
+      "native",
+      "react-native",
+      "native-modules",
+      "form",
+      "form generator",
+      "generator",
+      "builder",
+      "form builder"
+   ],
+   "dependencies":{
+      "fs-extra":"^3.0.1",
+      "print-message":"^2.1.0",
+      "lodash":"^4.17.4",
+      "react-native-keyboard-aware-scroll-view":"^0.2.7",
+      "react-native-i18n":"^1.0.0"
+   },
+   "devDependencies":{
+      "react":"15.4.2",
+      "react-native":"0.41.1",
+      "native-base":"^2.0.6"
+   }
 }

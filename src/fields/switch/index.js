@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, Switch } from 'native-base';
-import styles from './styles';
 
 export default class SwitchField extends Component {
   static propTypes = {
@@ -8,20 +7,6 @@ export default class SwitchField extends Component {
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
   }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     value: props.attributes.value || false,
-  //   };
-  // }
-  // componentWillReceiveProps(nextProps) {
-  //   const newAttributes = nextProps.attributes;
-  //   if ((newAttributes && newAttributes.value) !== this.state.value) {
-  //     this.setState({
-  //       value: newAttributes.value,
-  //     });
-  //   }
-  // }
   handleChange(value) {
     this.props.updateValue(this.props.attributes.name, value);
   }

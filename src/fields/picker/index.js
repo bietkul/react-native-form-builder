@@ -11,21 +11,6 @@ export default class PickerField extends Component {
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
   }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     value: props.attributes.options.indexOf(props.attributes.value).toString(),
-  //   };
-  // }
-  // componentWillReceiveProps(nextProps) {
-  //   const newAttributes = nextProps.attributes;
-  //   if ((newAttributes
-  //     && newAttributes.options.indexOf(newAttributes.value)).toString() !== this.state.value) {
-  //     this.setState({
-  //       value: newAttributes.options.indexOf(newAttributes.value).toString(),
-  //     });
-  //   }
-  // }
   handleChange(value) {
     const attributes = this.props.attributes;
     this.props.updateValue(attributes.name, attributes.options[value]);
@@ -33,11 +18,6 @@ export default class PickerField extends Component {
   render() {
     const { theme, attributes } = this.props;
     const isValueValid = attributes.options.indexOf(attributes.value) > -1;
-    console.log('PROPS IN PICKER FIELDS',
-    attributes,
-    attributes.options,
-    attributes.options.indexOf(attributes.value),
-    attributes.options[attributes.value]);
     const pickerValue = attributes.options.indexOf(attributes.value).toString();
     if (Platform.OS !== 'ios') {
       return (

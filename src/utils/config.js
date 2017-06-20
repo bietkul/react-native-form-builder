@@ -1,137 +1,125 @@
-
 export default {
   fields: [
     {
       type: 'text',
       name: 'user_name',
+      icon: 'ios-person',
+      iconOrientation: 'right',
       required: true,
       label: 'Username',
-      defaultValue: 'kuldeep',
-      editable: false,
+      editable: true,
+      props: {}, /* If you want to add some extra props like autoCapitalize or
+      autoFocus only available for textInput*/
+    },
+    {
+      type: 'password',
+      name: 'password',
+      icon: 'ios-lock',
+      required: true,
+      label: 'Password',
+      props: {
+        secureTextEntry: true,
+      },
+    },
+    {
+      type: 'date',
+      mode: 'date', // 'time', 'datetime'
+      name: 'birthday',
+      label: 'Birthday',
+      maxDate: new Date(2010, 7, 1),
     },
     {
       type: 'group',
-      name: 'address1',
+      name: 'work_address',
       label: 'Address',
       fields: [
         {
           type: 'text',
           name: 'city',
           label: 'City',
+          // defaultValue: 'Bangalore',
         },
         {
           type: 'text',
           name: 'country',
           label: 'Country',
+          // defaultValue: 'India',
         },
       ],
     },
     {
-      type: 'password',
-      name: 'password',
-      secureTextEntry: true,
+      type: 'text',
+      name: 'description',
+      label: 'Describe Yourself',
       required: true,
-      label: 'Password',
-      defaultValue: '123',
+      props: {
+        multiline: true,
+        numberOfLines: 3,
+      },
     },
     {
       type: 'email',
       name: 'email',
       required: true,
       label: 'Email',
-      defaultValue: 'www.jiji@jij.com',
+      // defaultValue: 'www.jiji@jij.com',
     },
     {
       type: 'number',
       name: 'number',
       required: true,
-      label: 'Number',
-      defaultValue: '2',
+      label: 'Age',
+      // defaultValue: 18,
     },
     {
       type: 'url',
       name: 'url',
       required: true,
       label: 'URL',
-      defaultValue: 'www.jiji.com',
+      // defaultValue: 'www.github.com',
     },
     {
       type: 'select', // required
       name: 'select', // required
       multiple: true, // default false
       required: true, // default false
-      label: 'SELECT', // required
+      label: 'Select', // required
       labelKey: 'name', // tells the display key (required)
       primaryKey: 'id', // tells the unique key (required)
       objectType: true, // tells the type of values is object default false
       options: [ // required
         {
           id: 1,
-          name: 'kuldeep',
-          title: 'saxena',
+          name: 'CAR',
         },
         {
           id: 2,
-          name: 'kuldeep1',
-          title: 'saxena1',
+          name: 'BIKE',
         },
         {
           id: 3,
-          name: 'kuldeep2',
-          title: 'saxena2',
+          name: 'BICYCLE',
         },
       ],
       // options: ['CAR', 'BIKE', 'BICYCLE'],
       defaultValue: [{  // In case of multiple it will be an array otherwise it will be an object
         id: 3,
-        name: 'kuldeep2',
-        title: 'saxena2',
+        name: 'BICYCLE',
       }],
       // defaultValue: ['CAR', 'BIKE'],
     },
     {
-      type: 'text',
-      name: 'address',
-      label: 'Address',
-      required: true,
-      numberOfLines: 3,
-      multiline: true,
-    },
-    {
-      type: 'url',
-      name: 'urllxs',
-      required: true,
-      label: 'URL',
-    },
-    {
-      type: 'picker',
-      name: 'picker',
-      editable: false,
-      mode: 'dialog',
-      label: 'Select One',
-      defaultValue: 'BIKE',
-      options: ['CAR', 'BIKE', 'BICYCLE'],
+      type: 'select', // required
+      name: 'status', // required
+      label: 'Status', // required
+      options: ['In Meeting', 'Busy', 'Happy', 'Sad'],
+      defaultValue: ['Happy'],
     },
     {
       type: 'switch',
       name: 'switch',
       label: 'Notify Me',
       defaultValue: true,
-    },
-    {
-      type: 'slider',
-      name: 'select_distance',
-      label: 'Select Distance',
-      minimumValue: 10,
-      maximumValue: 1000,
-    },
-    {
-      type: 'date',
-      mode: 'date',
-      name: 'D-T', // D, T, D-T
-      label: 'Select Date',
-      maxDate: new Date(2017, 3, 13),
-      minDate: new Date(2017, 2, 13),
     },
   ],
 };

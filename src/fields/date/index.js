@@ -16,23 +16,10 @@ export default class DatePickerField extends Component {
   }
   constructor(props) {
     super(props);
-    // this.state = {
-    //   timeZoneOffsetInHours: props.timeZoneOffsetInHours,
-    //   value: (props.attributes.value
-    //   && new Date(props.attributes.value)) || null,
-    // };
     this.onDateChange = this.onDateChange.bind(this);
     this.showTimePicker = this.showTimePicker.bind(this);
     this.showDatePicker = this.showDatePicker.bind(this);
   }
-  // componentWillReceiveProps(nextProps) {
-  //   const newAttributes = nextProps.attributes;
-  //   if ((newAttributes && newAttributes.value) !== this.state.value) {
-  //     this.setState({
-  //       value: newAttributes.value,
-  //     });
-  //   }
-  // }
   onDateChange(date) {
     this.props.updateValue(this.props.attributes.name, date);
   }
@@ -81,8 +68,7 @@ export default class DatePickerField extends Component {
     }
   };
   render() {
-    const theme = this.props.theme;
-    const attributes = this.props.attributes;
+    const { theme, attributes } = this.props;
     const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || 'datetime';
     return (
@@ -210,7 +196,6 @@ export default class DatePickerField extends Component {
             }
             </View>
           </TouchableOpacity>
-
 
                 }
       </View>
