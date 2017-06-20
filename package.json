@@ -1,6 +1,6 @@
 {
    "name":"react-native-form-builder",
-   "version":"1.0.0",
+   "version":"1.0.2",
    "description":"Generate Awesome Forms In an easy way",
    "main":"src/index.js",
    "scripts":{
@@ -31,13 +31,13 @@
       "form generator",
       "generator",
       "builder",
-      "form builder"
    ],
    "dependencies":{
       "fs-extra":"^3.0.1",
       "print-message":"^2.1.0",
       "lodash":"^4.17.4",
       "react-native-keyboard-aware-scroll-view":"^0.2.7",
+      "react-native-dismiss-keyboard": "^1.0.0",
       "react-native-i18n":"^1.0.0"
    },
    "devDependencies":{
