@@ -30,7 +30,7 @@
       "form",
       "form generator",
       "generator",
-      "builder",
+      "builder"
    ],
    "dependencies":{
       "fs-extra":"^3.0.1",
