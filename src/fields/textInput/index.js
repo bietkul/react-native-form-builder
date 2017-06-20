@@ -18,7 +18,7 @@ export default class TextInputField extends Component {
     const inputProps = attributes.props;
     const keyboardType = getKeyboardType(attributes.type);
     return (
-      <ListItem style={{ borderWidth: 0, paddingVertical: 5 }}>
+      <ListItem style={{ borderBottomWidth: 0, paddingVertical: 5 }}>
         <View style={{ flex: 1 }}>
           <View>
             <Item error={attributes.error}>

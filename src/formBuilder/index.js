@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import dismissKeyboard from 'dismissKeyboard';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
@@ -10,6 +9,8 @@ import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../theme';
 import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
+
+const dismissKeyboard = require('dismissKeyboard');
 
 export default class FormBuilder extends Component {
   static propTypes = {
