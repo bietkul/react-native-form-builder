@@ -48,37 +48,6 @@ export default {
       ],
     },
     {
-      type: 'text',
-      name: 'description',
-      label: 'Describe Yourself',
-      required: true,
-      props: {
-        multiline: true,
-        numberOfLines: 3,
-      },
-    },
-    {
-      type: 'email',
-      name: 'email',
-      required: true,
-      label: 'Email',
-      // defaultValue: 'www.jiji@jij.com',
-    },
-    {
-      type: 'number',
-      name: 'number',
-      required: true,
-      label: 'Age',
-      // defaultValue: 18,
-    },
-    {
-      type: 'url',
-      name: 'url',
-      required: true,
-      label: 'URL',
-      // defaultValue: 'www.github.com',
-    },
-    {
       type: 'select', // required
       name: 'select', // required
       multiple: true, // default false
@@ -120,6 +89,37 @@ export default {
       name: 'switch',
       label: 'Notify Me',
       defaultValue: true,
+    },
+    {
+      type: 'text',
+      name: 'description',
+      label: 'Describe Yourself',
+      required: true,
+      props: {
+        multiline: true,
+        numberOfLines: 3,
+      },
+    },
+    {
+      type: 'email',
+      name: 'email',
+      required: true,
+      label: 'Email',
+      // defaultValue: 'www.jiji@jij.com',
+    },
+    {
+      type: 'number',
+      name: 'number',
+      required: true,
+      label: 'Age',
+      // defaultValue: 18,
+    },
+    {
+      type: 'url',
+      name: 'url',
+      required: true,
+      label: 'URL',
+      // defaultValue: 'www.github.com',
     },
   ],
 };
