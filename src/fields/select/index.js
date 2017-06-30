@@ -75,7 +75,7 @@ export default class SelectField extends Component {
         </ListItem>
         <Modal
           visible={this.state.modalVisible}
-          animationType="fade"
+          animationType="none"
           onRequestClose={() => this.toggleModalVisible()}
         >
           <Container style={{ flex: 1 }}>
@@ -117,7 +117,7 @@ export default class SelectField extends Component {
                       </View>
                     }
                     <Body>
-                      <Text>
+                      <Text style={{ paddingHorizontal: 5 }}>
                         {attributes.objectType ? item[attributes.labelKey] : item }
                       </Text>
                     </Body>

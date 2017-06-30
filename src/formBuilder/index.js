@@ -8,6 +8,7 @@ import DateField from '../fields/date';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../theme';
+import _ from 'lodash';
 import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
 
 
@@ -15,6 +16,7 @@ export default class FormBuilder extends Component {
   static propTypes = {
     fields: React.PropTypes.array,
     theme: React.PropTypes.object,
+    customComponents: React.PropTypes.object,
     autoValidation: React.PropTypes.bool,
     customValidation: React.PropTypes.func,
     onValueChange: React.PropTypes.func,
@@ -56,7 +58,7 @@ export default class FormBuilder extends Component {
     && this[Object.keys(this.state)[index + 1]].textInput) {
       this[Object.keys(this.state)[index + 1]].textInput._root.focus();
     } else {
-      Keyboard.dismiss(); 
+      Keyboard.dismiss();
     }
   }
   onValueChange(name, value) {
@@ -214,9 +216,25 @@ export default class FormBuilder extends Component {
   }
   generateFields() {
     const theme = Object.assign(baseTheme, this.props.theme);
+    const { customComponents } = this.props;
     const renderFields = Object.keys(this.state).map((fieldName, index) => {
       const field = this.state[fieldName];
       if (!field.hidden) {
+        if (customComponents) {
+          const CustomComponent = customComponents[field.type];
+          if (CustomComponent) {
+            return (
+              <CustomComponent
+                key={index}
+                theme={theme}
+                ref={(c) => { this[field.name] = c; }}
+                onSummitTextInput={this.onSummitTextInput}
+                attributes={this.state[field.name]}
+                updateValue={this.onValueChange}
+              />
+            );
+          }
+        }
         switch (field.type) {
           case 'text':
           case 'email':
