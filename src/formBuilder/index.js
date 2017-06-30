@@ -8,7 +8,6 @@ import DateField from '../fields/date';
 import SelectField from '../fields/select';
 import FormField from '../fields/form';
 import baseTheme from '../theme';
-import _ from 'lodash';
 import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
 
 
@@ -17,6 +16,7 @@ export default class FormBuilder extends Component {
     fields: React.PropTypes.array,
     theme: React.PropTypes.object,
     customComponents: React.PropTypes.object,
+    formData: React.PropTypes.object,
     autoValidation: React.PropTypes.bool,
     customValidation: React.PropTypes.func,
     onValueChange: React.PropTypes.func,
@@ -51,6 +51,10 @@ export default class FormBuilder extends Component {
     this.resetForm = this.resetForm.bind(this);
     // Manages textInput Focus
     this.onSummitTextInput = this.onSummitTextInput.bind(this);
+  }
+  componentDidMount() {
+    const { formData } = this.props;
+    this.setValues(formData);
   }
   onSummitTextInput(name) {
     const index = Object.keys(this.state).indexOf(name);
@@ -144,12 +148,9 @@ export default class FormBuilder extends Component {
   getFieldValue(fieldObj, value) {
     const field = fieldObj;
     if (field.type === 'group') {
-      const subFields = [];
+      const subFields = {};
       Object.keys(value).forEach((fieldName) => {
-        const setValueObj = {};
-        setValueObj.name = fieldName;
-        setValueObj.value = value[fieldName];
-        subFields.push(setValueObj);
+        subFields[fieldName] = value[fieldName];
       });
       this[field.name].group.setValues(subFields);
       field.value = this[field.name].group.getValues();
@@ -168,31 +169,16 @@ export default class FormBuilder extends Component {
     }
     return field;
   }
-  /* Required Form
-    For multiple fields
-   [{name: , value: }, {name: , value: }.....]
-   For single field
-  {name: , value: }
-  */
   setValues(...args) {
-    if (args && args.length) {
-      if (args[0].length) {
-        const newFields = {};
-        args[0].forEach((item) => {
-          const field = this.state[item.name];
-          if (field) {
-            newFields[field.name] = this.getFieldValue(field, item.value);
-          }
-        });
-        this.setState({ ...newFields });
-      } else {
-        const field = this.state[args[0].name];
+    if (args && args.length && args[0]) {
+      const newFields = {};
+      Object.keys(args[0]).forEach((fieldName) => {
+        const field = this.state[fieldName];
         if (field) {
-          const newField = {};
-          newField[field.name] = this.getFieldValue(field, args[0].value);
-          this.setState({ ...newField });
+          newFields[field.name] = this.getFieldValue(field, args[0][fieldName]);
         }
-      }
+      });
+      this.setState({ ...newFields });
     }
   }
   // Reset Form values & errors NESTED SUPPORTED
@@ -299,6 +285,7 @@ export default class FormBuilder extends Component {
                 ref={(c) => { this[field.name] = c; }}
                 attributes={this.state[field.name]}
                 updateValue={this.onValueChange}
+                {...this.props}
               />
             );
           default:

@@ -24,8 +24,14 @@ export default class FormField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, text));
   }
   render() {
-    const attributes = this.props.attributes;
-    const theme = this.props.theme;
+    console.log(this.props);
+    const {
+      attributes,
+      theme,
+      autoValidation,
+      customValidation,
+      formData,
+    } = this.props;
     return (
       <View>
         <View style={{ paddingHorizontal: 15, paddingVertical: 5 }}>
@@ -35,7 +41,9 @@ export default class FormField extends Component {
           <GenerateForm
             ref={(c) => { this.group = c; }}
             onValueChange={this.onValueChange}
-            autoValidation
+            autoValidation={autoValidation}
+            customValidation={customValidation}
+            formData={formData}
             showErrors
             fields={attributes.fields}
             theme={theme}

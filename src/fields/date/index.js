@@ -68,6 +68,7 @@ export default class DatePickerField extends Component {
     }
   };
   render() {
+    console.log(this.props);
     const { theme, attributes } = this.props;
     const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || 'datetime';

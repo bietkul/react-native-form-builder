@@ -53,6 +53,7 @@ export default class SelectField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
   render() {
+    console.log(this.props);
     const { attributes, theme } = this.props;
     const selectedText = attributes.multiple ?
     attributes.value.length || 'None' :
