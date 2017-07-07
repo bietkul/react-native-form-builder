@@ -26,6 +26,7 @@
       + [Date](#date)
       + [Select](#select)
    + [Nested Forms](#nested-forms)
+   + [Prefilling Form's Values](#prefill-form-values)
    + [Add Custom Validations](#add-custom-validations)
    + [Customize Your Form](#customize-your-form)
    + [Add custom components](#add-custom-components)
@@ -130,6 +131,7 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 | onValueChange | N/A | `function` | Invoked every time after a field changes it's value |
 | customValidation | N/A | `function` | This function will be triggered everytime before a field changes it's value, here you can write your custom validation script & set error accordingly. |
 | customComponents | N/A | `object` | To define your custom type of components.|
+| formData | N/A | `object` | To prefill the form values.|
 | fields | `required` | `array` | Array of form fields. |
 
 ### Methods:
@@ -333,6 +335,18 @@ You can set default value for above example like that:
 ```
 { city: 'Newyork', country: 'US' }
 ```
+## Prefill Form Values
+This feature of formBuilder is very helpful in case of edit mode i.e if you want to edit the values of a form then you can easily prefill the form by using `formData` prop.<br/>
+For e.g
+```
+formData = {
+  first_name : 'Jon',
+  last_name: 'Snow',
+  house: 'Winterfell',
+  status: 'Sad'
+}
+```
+ 
 ## Add Custom Validations
 
 It's very easy to add your custom validations & error messages with FormBuilder.All you need to do is define a function & pass it as `customValidation` prop.
