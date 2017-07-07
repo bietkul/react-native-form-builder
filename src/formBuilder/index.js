@@ -169,6 +169,9 @@ export default class FormBuilder extends Component {
     }
     return field;
   }
+  // Set Values
+  // Params Format:
+  // {name1: value1, name2: value2, ......}
   setValues(...args) {
     if (args && args.length && args[0]) {
       const newFields = {};
