@@ -148,13 +148,14 @@ for e.g
 }
 ```
 ### setValues
-Forcefully set values for particular fields.
-Parameters: An array of objects, where every object must has two keys :  
-name: Field name for which value has to be set.  
-value: Value for that particular field  
+Forcefully set values for particular fields.<br/>
+Parameters: An object of key value pairs.<br/>
+`name: value`<br/>
+name(String): Field name for which value has to be set.<br/>
+value(Any): Value for that particular field  
 For e.g
 ```
-[{name: String, value: any}, {name: String, value: any}.....]
+{name1: value1, name2: value2, .....]
 ```
 ### resetForm
 Reset Form values as well as errors.
