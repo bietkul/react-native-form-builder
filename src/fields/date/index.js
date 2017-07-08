@@ -24,7 +24,8 @@ export default class DatePickerField extends Component {
     this.props.updateValue(this.props.attributes.name, date);
   }
   showTimePicker = async (stateKey) => {
-    const currentDate = this.props.attributes.value || new Date();
+    const { attributes } = this.props;
+    const currentDate = attributes.value ? new Date(attributes.value) : new Date();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
@@ -41,8 +42,8 @@ export default class DatePickerField extends Component {
     }
   };
   showDatePicker = async (stateKey) => {
-    const attributes = this.props.attributes;
-    const currentDate = attributes.value || new Date();
+    const { attributes } = this.props;
+    const currentDate = attributes.value ? new Date(attributes.value) : new Date();
     try {
       const { action, year, month, day } = await DatePickerAndroid.open(
         {
@@ -68,7 +69,6 @@ export default class DatePickerField extends Component {
     }
   };
   render() {
-    console.log(this.props);
     const { theme, attributes } = this.props;
     const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || 'datetime';

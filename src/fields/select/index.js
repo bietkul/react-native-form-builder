@@ -53,8 +53,7 @@ export default class SelectField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
   render() {
-    console.log(this.props);
-    const { attributes, theme } = this.props;
+    const { attributes } = this.props;
     const selectedText = attributes.multiple ?
     attributes.value.length || 'None' :
     attributes.objectType ?
@@ -110,12 +109,10 @@ export default class SelectField extends Component {
                     onPress={() => this.toggleSelect(item)}
                   >
                     { attributes.multiple &&
-                      <View pointerEvents="none">
-                        <CheckBox
-                          onPress={() => this.toggleSelect(item)}
-                          checked={isSelected}
-                        />
-                      </View>
+                    <CheckBox
+                      onPress={() => this.toggleSelect(item)}
+                      checked={isSelected}
+                    />
                     }
                     <Body>
                       <Text style={{ paddingHorizontal: 5 }}>

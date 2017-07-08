@@ -14,7 +14,7 @@ export default class TextInputField extends Component {
     this.props.updateValue(this.props.attributes.name, text);
   }
   render() {
-    const {theme, attributes} = this.props;
+    const { theme, attributes } = this.props;
     const inputProps = attributes.props;
     const keyboardType = getKeyboardType(attributes.type);
     return (

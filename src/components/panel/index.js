@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Dimensions, View, Easing } from 'react-native';
+import { Animated, Dimensions, View, Easing, Keyboard } from 'react-native';
 import styles from './styles';
 
 class Panel extends Component {
@@ -23,6 +23,7 @@ class Panel extends Component {
   }
 
   toggle() {
+    Keyboard.dismiss();
     const initialValue = this.state.expanded ?
     (this.state.maxHeight + this.state.minHeight) : this.state.minHeight;
     const finalValue = this.state.expanded ?
