@@ -209,17 +209,20 @@ export default class FormBuilder extends Component {
     const renderFields = Object.keys(this.state).map((fieldName, index) => {
       const field = this.state[fieldName];
       if (!field.hidden) {
+        const commonProps = {
+          key: index,
+          theme,
+          attributes: this.state[field.name],
+          updateValue: this.onValueChange,
+        };
         if (customComponents) {
           const CustomComponent = customComponents[field.type];
           if (CustomComponent) {
             return (
               <CustomComponent
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
+                {... commonProps}
                 onSummitTextInput={this.onSummitTextInput}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
               />
             );
           }
@@ -232,62 +235,44 @@ export default class FormBuilder extends Component {
           case 'password':
             return (
               <TextInputField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
+                {... commonProps}
                 onSummitTextInput={this.onSummitTextInput}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
               />
             );
           case 'picker':
             return (
               <PickerField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
+                {... commonProps}
               />
             );
           case 'select':
             return (
               <SelectField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
+                {... commonProps}
               />
             );
           case 'switch':
             return (
               <SwitchField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
+                {... commonProps}
               />
             );
           case 'date':
             return (
               <DateField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
+                {... commonProps}
               />
             );
           case 'group':
             return (
               <FormField
-                key={index}
-                theme={theme}
                 ref={(c) => { this[field.name] = c; }}
-                attributes={this.state[field.name]}
-                updateValue={this.onValueChange}
+                {... commonProps}
                 {...this.props}
               />
             );
