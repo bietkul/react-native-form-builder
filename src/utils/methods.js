@@ -9,7 +9,6 @@ export function getKeyboardType(textType) {
       return 'numeric';
     default:
       return 'default';
-
   }
 }
 export function autoValidate(field) {
