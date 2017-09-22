@@ -15,6 +15,7 @@ export default class FormBuilder extends Component {
   static propTypes = {
     fields: React.PropTypes.array,
     theme: React.PropTypes.object,
+    scrollViewProps: React.PropTypes.object,
     customComponents: React.PropTypes.object,
     formData: React.PropTypes.object,
     autoValidation: React.PropTypes.bool,
@@ -291,6 +292,7 @@ export default class FormBuilder extends Component {
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="always"
         extraScrollHeight={20}
+        {...this.props.scrollViewProps}
       >
         <View>
           {this.generateFields() || <View />}
