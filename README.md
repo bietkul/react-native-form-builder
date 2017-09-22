@@ -395,12 +395,13 @@ Build your custom type's components & handle them easily with the help of form b
 Use the `customComponents` prop of form builder.
 ### Prototype
 It's an object of key value pair where key will be the `type` of the component & value will be your custom Component.<br/><br/>
-```customComponents = { type1: ComponentName1, type2: ComponentName2 .....}```
+```customComponents = { type1: {component: ComponentName1, props: Props }, type2: {component: ComponentName2} .....}```
 
 ### How To Use
 - Define your custom `type` in field's object.
 - Form builder extends the props of your component by adding some extra props.
-- In you component you can access these props to handle the state of the field.
+- You can also pass some extra props in your custom components.
+- In your component you can access these props to handle the state of the field.
 
 | Props | Type | Description |
 | :------------| :------| :-----|
