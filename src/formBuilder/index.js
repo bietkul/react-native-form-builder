@@ -216,12 +216,15 @@ export default class FormBuilder extends Component {
           updateValue: this.onValueChange,
         };
         if (customComponents) {
-          const CustomComponent = customComponents[field.type];
-          if (CustomComponent) {
+          const CustomComponentObj = customComponents[field.type];
+          if (CustomComponentObj) {
+            const CustomComponent = CustomComponentObj.component;
+            const CustomComponentProps = CustomComponentObj.props;
             return (
               <CustomComponent
                 ref={(c) => { this[field.name] = c; }}
                 {... commonProps}
+                {...CustomComponentProps}
                 onSummitTextInput={this.onSummitTextInput}
               />
             );
