@@ -133,6 +133,7 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 | customComponents | N/A | `object` | To define your custom type of components.|
 | formData | N/A | `object` | To prefill the form values.|
 | fields | `required` | `array` | Array of form fields. |
+| scrollViewProps | N/A | `object` | Scrollview custom props. |
 
 ### Methods:
 Currently, these methods are available in FormBuilder, you can access them by using ref property.
