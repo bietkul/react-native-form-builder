@@ -16,16 +16,16 @@ export function autoValidate(field) {
   let errorMsg = '';
   if (field.required) {
     switch (field.type) {
-      case 'text':
       case 'email':
         if (isEmpty(field.value)) {
           error = true;
           errorMsg = `${field.label} is required`;
         } else if (!isEmail(field.value)) {
           error = true;
-          errorMsg = 'Please Enter a valid Email';
+          errorMsg = 'Please enter a valid email';
         }
         break;
+      case 'text':
       case 'url':
       case 'password':
         if (isEmpty(field.value)) {
@@ -39,7 +39,7 @@ export function autoValidate(field) {
             error = true;
             errorMsg = `${field.label} is required`;
           } else if (isNaN(field.value)) {
-            errorMsg = `${field.label} Should be a number`;
+            errorMsg = `${field.label} should be a number`;
           }
         }
         break;
