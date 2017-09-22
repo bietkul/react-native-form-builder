@@ -1,6 +1,6 @@
 {
    "name":"react-native-form-builder",
-   "version":"1.0.5",
+   "version":"1.0.7",
    "description":"Generate Awesome Forms In an easy way",
    "main":"src/index.js",
    "scripts":{
@@ -43,5 +43,10 @@
       "react":"15.4.2",
       "react-native":"0.41.1",
       "native-base":"^2.0.6"
-   }
+   },
+   "peerDependencies": {
+      "react-native": ">=0.41.1",
+      "react": ">=15.4.2-alpha.3",
+      "native-base": "^2.0.6"
+    }
 }
