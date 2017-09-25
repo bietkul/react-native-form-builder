@@ -13,6 +13,7 @@ export default class DatePickerField extends Component {
     updateValue: React.PropTypes.func,
     timeZoneOffsetInHours: React.PropTypes.number,
     theme: React.PropTypes.object,
+    ErrorComponent: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -69,7 +70,7 @@ export default class DatePickerField extends Component {
     }
   };
   render() {
-    const { theme, attributes } = this.props;
+    const { theme, attributes, ErrorComponent } = this.props;
     const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || 'datetime';
     return (
@@ -132,6 +133,7 @@ export default class DatePickerField extends Component {
             }
               </View>
             </TouchableOpacity>
+            <ErrorComponent {...{ attributes, theme }} />
             <Panel
               ref={(c) => { this.panel = c; }}
             >
@@ -196,11 +198,10 @@ export default class DatePickerField extends Component {
                 </TouchableOpacity>
             }
             </View>
+            <ErrorComponent {...{ attributes, theme }} />
           </TouchableOpacity>
-
-                }
+          }
       </View>
-
     );
   }
 }

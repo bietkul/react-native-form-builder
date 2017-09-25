@@ -9,12 +9,13 @@ export default class TextInputField extends Component {
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
     onSummitTextInput: React.PropTypes.func,
+    ErrorComponent: React.PropTypes.func,
   }
   handleChange(text) {
     this.props.updateValue(this.props.attributes.name, text);
   }
   render() {
-    const { theme, attributes } = this.props;
+    const { theme, attributes, ErrorComponent } = this.props;
     const inputProps = attributes.props;
     const keyboardType = getKeyboardType(attributes.type);
     return (
@@ -48,12 +49,9 @@ export default class TextInputField extends Component {
                 <Icon name="close-circle" /> : null}
             </Item>
           </View>
-          <Text style={{ color: '#ed2f2f' }}>
-            {attributes.errorMsg}
-          </Text>
+          <ErrorComponent {...{ attributes, theme }} />
         </View>
       </ListItem>
-
     );
   }
 }

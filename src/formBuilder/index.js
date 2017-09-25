@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
@@ -10,7 +10,18 @@ import FormField from '../fields/form';
 import baseTheme from '../theme';
 import { autoValidate, getInitState, getDefaultValue, getResetValue } from '../utils/methods';
 
-
+const DefaultErrorComponent = (props) => {
+  const attributes = props.attributes;
+  const theme = props.theme;
+  if (attributes.error) {
+    return (
+      <Text style={{ color: theme.errorMsgColor }}>
+        { attributes.errorMsg }
+      </Text>
+    );
+  }
+  return null;
+};
 export default class FormBuilder extends Component {
   static propTypes = {
     fields: React.PropTypes.array,
@@ -18,6 +29,7 @@ export default class FormBuilder extends Component {
     scrollViewProps: React.PropTypes.object,
     customComponents: React.PropTypes.object,
     formData: React.PropTypes.object,
+    errorComponent: React.PropTypes.func,
     autoValidation: React.PropTypes.bool,
     customValidation: React.PropTypes.func,
     onValueChange: React.PropTypes.func,
@@ -206,7 +218,7 @@ export default class FormBuilder extends Component {
   }
   generateFields() {
     const theme = Object.assign(baseTheme, this.props.theme);
-    const { customComponents } = this.props;
+    const { customComponents, errorComponent } = this.props;
     const renderFields = Object.keys(this.state).map((fieldName, index) => {
       const field = this.state[fieldName];
       if (!field.hidden) {
@@ -215,6 +227,7 @@ export default class FormBuilder extends Component {
           theme,
           attributes: this.state[field.name],
           updateValue: this.onValueChange,
+          ErrorComponent: errorComponent || DefaultErrorComponent,
         };
         if (customComponents) {
           const CustomComponentObj = customComponents[field.type];

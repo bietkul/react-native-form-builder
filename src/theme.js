@@ -14,4 +14,5 @@ export default {
   inputColor: '#575757',
   inputFontSize: 15,
   labelActiveColor: '#575757',
+  errorMsgColor: '#ed2f2f',
 };

@@ -23,6 +23,7 @@ export default class SelectField extends Component {
     attributes: React.PropTypes.object,
     updateValue: React.PropTypes.func,
     theme: React.PropTypes.object,
+    ErrorComponent: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -53,7 +54,7 @@ export default class SelectField extends Component {
     }, () => this.props.updateValue(this.props.attributes.name, newSelected));
   }
   render() {
-    const { attributes } = this.props;
+    const { theme, attributes, ErrorComponent } = this.props;
     const selectedText = attributes.multiple ?
     attributes.value.length || 'None' :
     attributes.objectType ?
@@ -73,6 +74,9 @@ export default class SelectField extends Component {
             <Icon name="ios-arrow-forward" />
           </Right>
         </ListItem>
+        <View style={{ paddingHorizontal: 15 }}>
+          <ErrorComponent {...{ attributes, theme }} />
+        </View>
         <Modal
           visible={this.state.modalVisible}
           animationType="none"

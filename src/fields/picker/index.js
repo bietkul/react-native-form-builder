@@ -10,13 +10,14 @@ export default class PickerField extends Component {
     attributes: React.PropTypes.object,
     theme: React.PropTypes.object,
     updateValue: React.PropTypes.func,
+    ErrorComponent: React.PropTypes.func,
   }
   handleChange(value) {
     const attributes = this.props.attributes;
     this.props.updateValue(attributes.name, attributes.options[value]);
   }
   render() {
-    const { theme, attributes } = this.props;
+    const { theme, attributes, ErrorComponent } = this.props;
     const isValueValid = attributes.options.indexOf(attributes.value) > -1;
     const pickerValue = attributes.options.indexOf(attributes.value).toString();
     if (Platform.OS !== 'ios') {
@@ -42,12 +43,12 @@ export default class PickerField extends Component {
             >{
                 attributes.options.map((item, index) => (
                   <Item key={index} label={item} value={`${index}`} />
-                  ))
+                ))
               }
             </Picker>
           </View>
+          <ErrorComponent {...{ attributes, theme }} />
         </View>
-
       );
     }
     return (
@@ -75,6 +76,7 @@ export default class PickerField extends Component {
             {isValueValid ? attributes.value : 'None'}
           </Text>
         </TouchableOpacity>
+        <ErrorComponent {...{ attributes, theme }} />
         <View style={{ flex: 1 }}>
           <Panel
             ref={(c) => { this.panel = c; }}
