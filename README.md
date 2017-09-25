@@ -30,6 +30,7 @@
    + [Add Custom Validations](#add-custom-validations)
    + [Customize Your Form](#customize-your-form)
    + [Add custom components](#add-custom-components)
+   + [Add custome error component](#add-custom-error-component)
 - [Example](#example)
 
 ## Installation
@@ -134,6 +135,7 @@ AppRegistry.registerComponent('FormGenerator', () => FormGenerator);
 | formData | N/A | `object` | To prefill the form values.|
 | fields | `required` | `array` | Array of form fields. |
 | scrollViewProps | N/A | `object` | Scrollview custom props. |
+| errorComponent | N/A | `React Component` | Custom error display component. |
 
 ### Methods:
 Currently, these methods are available in FormBuilder, you can access them by using ref property.
@@ -411,6 +413,10 @@ It's an object of key value pair where key will be the `type` of the component &
 | onSummitTextInput(fieldName) | `function`| If you're using TextInput then you can use this function to automatically manage the text input focus.For example you can define it in the `onSubmitEditing` prop of TextInput
 | theme | `object` | Use the theme variables to style your component
 
+## Add Custom Error Component
+- Now you can use your custom error component to display error messages.
+- In your custom component you will receive two props `attributes` & `theme` variables.
+- You can access the error & error message as a property of the attributes object.
 
 
 ## Example
