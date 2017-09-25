@@ -15,4 +15,6 @@ export default {
   inputFontSize: 15,
   labelActiveColor: '#575757',
   errorMsgColor: '#ed2f2f',
+  changeTextInputColorOnError: true,
+  textInputErrorIcon: 'close-circle',
 };

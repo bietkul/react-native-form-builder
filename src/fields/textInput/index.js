@@ -22,7 +22,7 @@ export default class TextInputField extends Component {
       <ListItem style={{ borderBottomWidth: 0, paddingVertical: 5 }}>
         <View style={{ flex: 1 }}>
           <View>
-            <Item error={attributes.error}>
+            <Item error={theme.changeTextInputColorOnError ? attributes.error : null}>
               { attributes.icon &&
               <Icon color={theme.textInputIconColor} name={attributes.icon} />
                 }
@@ -45,8 +45,8 @@ export default class TextInputField extends Component {
                 onChangeText={text => this.handleChange(text)}
                 {...inputProps}
               />
-              { attributes.error ?
-                <Icon name="close-circle" /> : null}
+              { theme.textInputErrorIcon && attributes.error ?
+                <Icon name={theme.textInputErrorIcon} /> : null}
             </Item>
           </View>
           <ErrorComponent {...{ attributes, theme }} />
