@@ -7,7 +7,7 @@
 - Automatically manages focus to next field on submit (TextInput)
 - Handle all keyboard related problems smartly
 - Supports custom validations & nested forms
-- Uses Nativebase components
+- Uses <a href="https://github.com/GeekyAnts/NativeBase">Nativebase</a> components
 
 ## Getting Started
 
