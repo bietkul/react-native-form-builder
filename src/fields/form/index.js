@@ -9,6 +9,7 @@ export default class FormField extends Component {
     updateValue: React.PropTypes.func,
     autoValidation: React.PropTypes.bool,
     customValidation: React.PropTypes.func,
+    customComponents: React.PropTypes.object,
   }
   constructor(props) {
     super(props);
@@ -31,6 +32,7 @@ export default class FormField extends Component {
       theme,
       autoValidation,
       customValidation,
+      customComponents,
     } = this.props;
     return (
       <View>
@@ -43,6 +45,7 @@ export default class FormField extends Component {
             onValueChange={this.onValueChange}
             autoValidation={autoValidation}
             customValidation={customValidation}
+            customComponents={customComponents}
             showErrors
             fields={attributes.fields}
             theme={theme}
