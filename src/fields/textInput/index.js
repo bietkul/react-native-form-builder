@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Item, Input, Icon, ListItem, Text } from 'native-base';
 import { Platform } from 'react-native';
@@ -5,11 +6,11 @@ import { getKeyboardType } from '../../utils/methods';
 
 export default class TextInputField extends Component {
   static propTypes = {
-    attributes: React.PropTypes.object,
-    theme: React.PropTypes.object,
-    updateValue: React.PropTypes.func,
-    onSummitTextInput: React.PropTypes.func,
-    ErrorComponent: React.PropTypes.func,
+    attributes: PropTypes.object,
+    theme: PropTypes.object,
+    updateValue: PropTypes.func,
+    onSummitTextInput: PropTypes.func,
+    ErrorComponent: PropTypes.func,
   }
   handleChange(text) {
     this.props.updateValue(this.props.attributes.name, text);

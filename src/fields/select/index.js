@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Modal, Dimensions } from 'react-native';
 import {
@@ -20,10 +21,10 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default class SelectField extends Component {
   static propTypes = {
-    attributes: React.PropTypes.object,
-    updateValue: React.PropTypes.func,
-    theme: React.PropTypes.object,
-    ErrorComponent: React.PropTypes.func,
+    attributes: PropTypes.object,
+    updateValue: PropTypes.func,
+    theme: PropTypes.object,
+    ErrorComponent: PropTypes.func,
   }
   constructor(props) {
     super(props);

@@ -1,15 +1,16 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Text } from 'native-base';
 import GenerateForm from '../../formBuilder';
 
 export default class FormField extends Component {
   static propTypes = {
-    attributes: React.PropTypes.object,
-    theme: React.PropTypes.object,
-    updateValue: React.PropTypes.func,
-    autoValidation: React.PropTypes.bool,
-    customValidation: React.PropTypes.func,
-    customComponents: React.PropTypes.object,
+    attributes: PropTypes.object,
+    theme: PropTypes.object,
+    updateValue: PropTypes.func,
+    autoValidation: PropTypes.bool,
+    customValidation: PropTypes.func,
+    customComponents: PropTypes.object,
   }
   constructor(props) {
     super(props);
