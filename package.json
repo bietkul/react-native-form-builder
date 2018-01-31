@@ -41,13 +41,13 @@
       "react-native-keyboard-aware-scroll-view": "^0.2.7"
    },
    "devDependencies": {
-      "react": "15.4.2",
-      "react-native": "0.41.1",
-      "native-base": "^2.0.6"
+      "native-base": "^2.0.6",
+      "react": "^15.5.0",
+      "react-native": "0.41.1"
    },
    "peerDependencies": {
       "react-native": ">=0.41.1",
-      "react": ">=15.4.2-alpha.3",
+      "react": ">=15.5.0",
       "native-base": "^2.0.6"
    }
 }
