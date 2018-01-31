@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Text } from 'native-base';
 import I18n from 'react-native-i18n';
@@ -9,11 +10,11 @@ export default class DatePickerField extends Component {
     timeZoneOffsetInHours: (-1) * ((new Date()).getTimezoneOffset() / 60),
   };
   static propTypes = {
-    attributes: React.PropTypes.object,
-    updateValue: React.PropTypes.func,
-    timeZoneOffsetInHours: React.PropTypes.number,
-    theme: React.PropTypes.object,
-    ErrorComponent: React.PropTypes.func,
+    attributes: PropTypes.object,
+    updateValue: PropTypes.func,
+    timeZoneOffsetInHours: PropTypes.number,
+    theme: PropTypes.object,
+    ErrorComponent: PropTypes.func,
   }
   constructor(props) {
     super(props);

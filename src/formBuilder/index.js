@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -24,15 +25,15 @@ const DefaultErrorComponent = (props) => {
 };
 export default class FormBuilder extends Component {
   static propTypes = {
-    fields: React.PropTypes.array,
-    theme: React.PropTypes.object,
-    scrollViewProps: React.PropTypes.object,
-    customComponents: React.PropTypes.object,
-    formData: React.PropTypes.object,
-    errorComponent: React.PropTypes.func,
-    autoValidation: React.PropTypes.bool,
-    customValidation: React.PropTypes.func,
-    onValueChange: React.PropTypes.func,
+    fields: PropTypes.array,
+    theme: PropTypes.object,
+    scrollViewProps: PropTypes.object,
+    customComponents: PropTypes.object,
+    formData: PropTypes.object,
+    errorComponent: PropTypes.func,
+    autoValidation: PropTypes.bool,
+    customValidation: PropTypes.func,
+    onValueChange: PropTypes.func,
   }
   constructor(props) {
     super(props);

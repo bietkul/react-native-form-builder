@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Text, Switch } from 'native-base';
 
 export default class SwitchField extends Component {
   static propTypes = {
-    attributes: React.PropTypes.object,
-    theme: React.PropTypes.object,
-    updateValue: React.PropTypes.func,
-    ErrorComponent: React.PropTypes.func,
+    attributes: PropTypes.object,
+    theme: PropTypes.object,
+    updateValue: PropTypes.func,
+    ErrorComponent: PropTypes.func,
   }
   handleChange(value) {
     this.props.updateValue(this.props.attributes.name, value);
