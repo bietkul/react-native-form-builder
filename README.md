@@ -1,6 +1,8 @@
 # react-native-form-builder
 ![alt text](http://g.recordit.co/7PqX8Ft7VO.gif)
   ![alt text](http://g.recordit.co/RWFvqi5tXG.gif)
+# Note: 
+If you're looking for a better form management library with more advanced features, Please check out [React Reactive Form](https://github.com/bietkul/react-reactive-form).
 ## Features
 - Generate Form Fields UI
 - Manage, track state & values of fields
