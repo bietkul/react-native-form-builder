@@ -38,7 +38,7 @@
       "print-message": "^2.1.0",
       "prop-types": "^15.6.0",
       "react-native-i18n": "^1.0.0",
-      "react-native-keyboard-aware-scroll-view": "^0.2.7"
+      "react-native-keyboard-aware-scroll-view": "^0.5.0"
    },
    "devDependencies": {
       "native-base": "^2.0.6",
