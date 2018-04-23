@@ -1,3 +1,4 @@
+[![NPM Version](https://img.shields.io/npm/v/react-native-form-builder.svg?style=flat)](https://www.npmjs.com/package/react-native-form-builder)
 # react-native-form-builder
 ![alt text](http://g.recordit.co/7PqX8Ft7VO.gif)
   ![alt text](http://g.recordit.co/RWFvqi5tXG.gif)
