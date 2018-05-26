@@ -24,11 +24,11 @@ export default class PickerField extends Component {
     if (Platform.OS !== 'ios') {
       return (
         <View
-          style={Object.assign(styles.pickerMainAndroid, {
+          style={{...styles.pickerMainAndroid, ...{
             backgroundColor: theme.pickerBgColor,
             borderBottomColor: theme.inputBorderColor,
             borderBottomWidth: theme.borderWidth,
-          })}
+          }}}
         >
           <View style={{ flex: 7 }}>
             <Text style={{ color: theme.inputColorPlaceholder }}>{attributes.label}</Text>
