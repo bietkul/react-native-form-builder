@@ -224,7 +224,7 @@ export default class FormBuilder extends Component {
       // Remaing thing is error Handling Here
     } else {
       const stateField = this.state.fields[field.name];
-      subFields[fieldName] = stateField && stateField.value ? stateField.value : value;
+      field.value = stateField && stateField.value ? stateField.value : value;
       // also check for errors
       if (this.props.autoValidation === undefined || this.props.autoValidation) {
         Object.assign(field, autoValidate(field));
