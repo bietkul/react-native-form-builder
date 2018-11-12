@@ -77,13 +77,12 @@ export default class FormBuilder extends Component {
   }
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.fields, this.props.fields)) {
-      const { formData } = this.props;
       const nextState = this.updateState(this.props.fields);
 
       let fields = Object.assign({}, this.state.fields, nextState.fields);
       fields = _.omit(fields, nextState.hiddenFields);
 
-      this.setState({ fields }, () => this.setValues(formData));
+      this.setState({ fields });
     }
   }
   updateState(fields) {
@@ -216,15 +215,13 @@ export default class FormBuilder extends Component {
     if (field.type === 'group') {
       const subFields = {};
       Object.keys(value).forEach((fieldName) => {
-        const stateField = this.state.fields[fieldName];
-        subFields[fieldName] = stateField && stateField.value ? stateField.value : value[fieldName];
+        subFields[fieldName] = value[fieldName];
       });
       this[field.name].group.setValues(subFields);
       field.value = this[field.name].group.getValues();
       // Remaing thing is error Handling Here
     } else {
-      const stateField = this.state.fields[field.name];
-      field.value = stateField && stateField.value ? stateField.value : value;
+      field.value = value;
       // also check for errors
       if (this.props.autoValidation === undefined || this.props.autoValidation) {
         Object.assign(field, autoValidate(field));
