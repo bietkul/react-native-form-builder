@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { View, Keyboard, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import _ from 'lodash';
 import TextInputField from '../fields/textInput';
 import PickerField from '../fields/picker';
 import SwitchField from '../fields/switch';
@@ -39,7 +40,9 @@ export default class FormBuilder extends Component {
     super(props);
     const initialState = getInitState(props.fields);
     this.state = {
-      ...initialState,
+      fields: {
+        ...initialState,
+      },
       errorStatus: false,
     };
     // Supports Nested
@@ -52,6 +55,8 @@ export default class FormBuilder extends Component {
     this.setValues = this.setValues.bind(this);
     // forcefully set default values for particular fields
     this.setToDefault = this.setToDefault.bind(this);
+    // update the form fields
+    this.updateState = this.updateState.bind(this);
     /*
      forcefully set errors for a particular field
     this.setErrors = this.setErrors.bind(this);
@@ -70,17 +75,43 @@ export default class FormBuilder extends Component {
     const { formData } = this.props;
     this.setValues(formData);
   }
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.fields, this.props.fields)) {
+      const nextState = this.updateState(this.props.fields);
+
+      let fields = Object.assign({}, this.state.fields, nextState.fields);
+      fields = _.omit(fields, nextState.hiddenFields);
+
+      this.setState({ fields });
+    }
+  }
+  updateState(fields) {
+    const newFields = {};
+    const hiddenFields = [];
+    _.forEach(fields, (field) => {
+      const fieldObj = field;
+      if (!field.hidden && field.type) {
+        const stateField = this.state.fields[field.name];
+        fieldObj.value = stateField && stateField.value ? stateField.value : getDefaultValue(field);
+        newFields[field.name] = fieldObj;
+      } else if (field.hidden) {
+        hiddenFields.push(field.name);
+      }
+    });
+    return { fields: newFields, hiddenFields };
+  }
   onSummitTextInput(name) {
-    const index = Object.keys(this.state).indexOf(name);
-    if (index !== -1 && this[Object.keys(this.state)[index + 1]]
-    && this[Object.keys(this.state)[index + 1]].textInput) {
-      this[Object.keys(this.state)[index + 1]].textInput._root.focus();
+    const { fields } = this.state;
+    const index = Object.keys(fields).indexOf(name);
+    if (index !== -1 && this[Object.keys(fields)[index + 1]]
+      && this[Object.keys(fields)[index + 1]].textInput) {
+      this[Object.keys(fields)[index + 1]].textInput._root.focus();
     } else {
       Keyboard.dismiss();
     }
   }
   onValueChange(name, value) {
-    const valueObj = this.state[name];
+    const valueObj = this.state.fields[name];
     if (valueObj) {
       valueObj.value = value;
       // Not Validate fields only when autoValidation prop is false
@@ -89,7 +120,7 @@ export default class FormBuilder extends Component {
       }
       // Validate through customValidation if it is present in props
       if (this.props.customValidation
-         && typeof this.props.customValidation === 'function') {
+        && typeof this.props.customValidation === 'function') {
         Object.assign(valueObj, this.props.customValidation(valueObj));
       }
       const newField = {};
@@ -97,17 +128,27 @@ export default class FormBuilder extends Component {
       // this.props.customValidation(valueObj);
       if (this.props.onValueChange &&
         typeof this.props.onValueChange === 'function') {
-        this.setState({ ...newField }, () => this.props.onValueChange());
+        this.setState({
+          fields: {
+            ...this.state.fields,
+            ...newField,
+          }
+        }, () => this.props.onValueChange());
       } else {
-        this.setState({ ...newField });
+        this.setState({
+          fields: {
+            ...this.state.fields,
+            ...newField,
+          }
+        });
       }
     }
   }
   // Returns the values of the fields
   getValues() {
     const values = {};
-    Object.keys(this.state).forEach((fieldName) => {
-      const field = this.state[fieldName];
+    Object.keys(this.state.fields).forEach((fieldName) => {
+      const field = this.state.fields[fieldName];
       if (field) {
         values[field.name] = field.value;
       }
@@ -119,7 +160,7 @@ export default class FormBuilder extends Component {
     const field = fieldObj;
     if (field.type === 'group') {
       const allFields = [];
-      this.state[field.name].fields.forEach((item) => {
+      this.state.fields[field.name].fields.forEach((item) => {
         allFields.push(item.name);
       });
       this[field.name].group.setToDefault(allFields);
@@ -141,19 +182,29 @@ export default class FormBuilder extends Component {
       if (typeof args[0] === 'object') {
         const newFields = {};
         args[0].forEach((item) => {
-          const field = this.state[item];
+          const field = this.state.fields[item];
           if (field) {
             field.value = getDefaultValue(field);
             newFields[field.name] = this.getFieldDefaultValue(field);
           }
         });
-        this.setState({ ...newFields });
+        this.setState({
+          fields: {
+            ...this.state.fields,
+            ...newFields,
+          }
+        });
       } else {
-        const field = this.state[args[0]];
+        const field = this.state.fields[args[0]];
         if (field) {
           const newField = {};
           newField[field.name] = this.getFieldDefaultValue(field);
-          this.setState({ ...newField });
+          this.setState({
+            fields: {
+              ...this.state.fields,
+              ...newFields,
+            }
+          });
         }
       }
     }
@@ -171,13 +222,13 @@ export default class FormBuilder extends Component {
       // Remaing thing is error Handling Here
     } else {
       field.value = value;
-        // also check for errors
+      // also check for errors
       if (this.props.autoValidation === undefined || this.props.autoValidation) {
         Object.assign(field, autoValidate(field));
       }
-        // Validate through customValidation if it is present in props
+      // Validate through customValidation if it is present in props
       if (this.props.customValidation
-           && typeof this.props.customValidation === 'function') {
+        && typeof this.props.customValidation === 'function') {
         Object.assign(field, this.props.customValidation(field));
       }
     }
@@ -190,19 +241,24 @@ export default class FormBuilder extends Component {
     if (args && args.length && args[0]) {
       const newFields = {};
       Object.keys(args[0]).forEach((fieldName) => {
-        const field = this.state[fieldName];
+        const field = this.state.fields[fieldName];
         if (field) {
           newFields[field.name] = this.getFieldValue(field, args[0][fieldName]);
         }
       });
-      this.setState({ ...newFields });
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          ...newFields,
+        }
+      });
     }
   }
   // Reset Form values & errors NESTED SUPPORTED
   resetForm() {
     const newFields = {};
-    Object.keys(this.state).forEach((fieldName) => {
-      const field = this.state[fieldName];
+    Object.keys(this.state.fields).forEach((fieldName) => {
+      const field = this.state.fields[fieldName];
       if (field) {
         field.value = (field.editable !== undefined && !field.editable) ?
           getDefaultValue(field) :
@@ -215,18 +271,24 @@ export default class FormBuilder extends Component {
         newFields[field.name] = field;
       }
     });
-    this.setState({ ...newFields });
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        ...newFields,
+      }
+    });
   }
   generateFields() {
     const theme = Object.assign(baseTheme, this.props.theme);
-    const { customComponents, errorComponent } = this.props;
-    const renderFields = Object.keys(this.state).map((fieldName, index) => {
-      const field = this.state[fieldName];
-      if (!field.hidden) {
+    const { customComponents, errorComponent, fields } = this.props;
+    // Use fields from props to maintain the order of the props if the hidden prop is changed
+    const renderFields = fields.map(({ name: fieldName }, index) => {
+      const field = this.state.fields[fieldName];
+      if (field && !field.hidden) {
         const commonProps = {
           key: index,
           theme,
-          attributes: this.state[field.name],
+          attributes: this.state.fields[field.name],
           updateValue: this.onValueChange,
           ErrorComponent: errorComponent || DefaultErrorComponent,
         };
