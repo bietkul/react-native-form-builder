@@ -270,7 +270,7 @@ If you're using array of objects then please don't forget to define these proper
 ```jsx
 objectType: true,
 labelKey: 'name', // For Below example
-primaryKey: 'id,  // For Below example
+primaryKey: 'id',  // For Below example
 ```
 For e.g.
 ```
