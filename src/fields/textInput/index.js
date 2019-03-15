@@ -25,7 +25,7 @@ export default class TextInputField extends Component {
           <View>
             <Item error={theme.changeTextInputColorOnError ? attributes.error : null}>
               { attributes.icon &&
-              <Icon color={theme.textInputIconColor} name={attributes.icon} />
+              <Icon style={{color:theme.textInputIconColor}} name={attributes.icon} />
                 }
               <Input
                 style={{
