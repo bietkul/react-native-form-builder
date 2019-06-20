@@ -38,6 +38,21 @@ If you're looking for a better form management library with more advanced featur
 
 ## Installation
 
+`react-native-form-builder`  requires a peer of [`native-base`](https://github.com/GeekyAnts/NativeBase)
+
+
+To Install the peer dependecy
+```
+$ npm i native-base --save
+
+``` 
+link the peer dependecy using 
+
+```
+react-native link
+```
+and then insteall `react-native-form-builder`
+
 ```bash
 $ npm i react-native-form-builder --save
 ```
